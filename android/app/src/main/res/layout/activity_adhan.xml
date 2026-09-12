@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    activity_adhan.xml — Full-Screen Adhan UI
+    
+    Design Philosophy:
+    - Matches app's visual identity from loading_screen.dart
+    - Dark background (nightDeep #08061A) with gold accents
+    - Professional, elegant, static (no animations)
+    - Clear prayer name and prominent dismiss button
+    
+    Color Palette (from AppColors.dart):
+    - nightDeep: #08061A (background)
+    - nightCard: #221A40 (card background)
+    - goldWarm: #C8922A (primary gold)
+    - goldLight: #F0C060 (light gold)
+    - textPrimary: #F5E6CC (main text)
+    - textDim: #9B8A6E (secondary text)
+-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#08061A"
+    android:padding="24dp">
+
+    <!-- ══════════════════════════════════════════════════════════
+         Main Content Container (Centered)
+         ══════════════════════════════════════════════════════════ -->
+    <LinearLayout
+        android:id="@+id/content_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@drawable/adhan_card_background"
+        android:padding="32dp"
+        android:elevation="8dp">
+
+        <!-- ══════════════════════════════════════════════════════
+             Crescent Moon Icon (🌙)
+             ══════════════════════════════════════════════════════ -->
+        <TextView
+            android:id="@+id/icon_crescent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🌙"
+            android:textSize="64sp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- ══════════════════════════════════════════════════════
+             "حان الآن وقت صلاة" (It's time for prayer)
+             ══════════════════════════════════════════════════════ -->
+        <TextView
+            android:id="@+id/text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="حان الآن وقت صلاة"
+            android:textSize="18sp"
+            android:textColor="#9B8A6E"
+            android:fontFamily="@font/tajawal_regular"
+            android:layout_marginBottom="8dp"
+            android:gravity="center" />
+
+        <!-- ══════════════════════════════════════════════════════
+             Prayer Name (Dynamic - e.g., "الفجر", "الظهر")
+             Large, prominent, gold gradient effect
+             ══════════════════════════════════════════════════════ -->
+        <TextView
+            android:id="@+id/text_prayer_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="الفجر"
+            android:textSize="48sp"
+            android:textColor="#F0C060"
+            android:fontFamily="@font/noto_naskh_arabic_bold"
+            android:layout_marginBottom="24dp"
+            android:gravity="center"
+            android:shadowColor="#C8922A"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="12" />
+
+        <!-- ══════════════════════════════════════════════════════
+             Decorative Divider (Golden line)
+             ══════════════════════════════════════════════════════ -->
+        <View
+            android:id="@+id/divider"
+            android:layout_width="120dp"
+            android:layout_height="2dp"
+            android:background="#C8922A"
+            android:layout_marginBottom="24dp"
+            android:alpha="0.4" />
+
+        <!-- ══════════════════════════════════════════════════════
+             Dismiss Button (Prominent, Gold)
+             ══════════════════════════════════════════════════════ -->
+        <Button
+            android:id="@+id/btn_dismiss"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="إيقاف الأذان"
+            android:textSize="18sp"
+            android:textColor="#08061A"
+            android:fontFamily="@font/tajawal_bold"
+            android:background="@drawable/button_dismiss_background"
+            android:elevation="4dp"
+            android:stateListAnimator="@null" />
+
+    </LinearLayout>
+
+    <!-- ══════════════════════════════════════════════════════════
+         App Branding (Bottom)
+         Subtle "نور رمضان" text at bottom
+         ══════════════════════════════════════════════════════════ -->
+    <TextView
+        android:id="@+id/text_branding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp"
+        android:text="نور رمضان"
+        android:textSize="14sp"
+        android:textColor="#9B8A6E"
+        android:fontFamily="@font/noto_naskh_arabic_regular"
+        android:alpha="0.5" />
+
+</RelativeLayout>

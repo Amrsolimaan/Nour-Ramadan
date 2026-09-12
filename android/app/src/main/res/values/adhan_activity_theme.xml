@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ══════════════════════════════════════════════════════════════
+         ✅ PHASE 5 GLOBAL: Solid Theme for AdhanActivity
+         
+         Why solid instead of transparent?
+         1. Vivo/Xiaomi/Oppo kill transparent activities aggressively
+         2. Solid theme prevents "ghost activity" issues on OEMs
+         3. Better visibility on all devices (no transparency bugs)
+         4. More reliable wake-up behavior
+         
+         This theme matches the app's visual identity while being
+         solid for maximum OEM compatibility
+         
+         Note: windowShowWhenLocked and windowTurnScreenOn are set
+         programmatically in AdhanActivity.kt (not in theme) for
+         better Android version compatibility (API 27+ uses methods,
+         API 26 uses window flags)
+    ══════════════════════════════════════════════════════════════ -->
+    <style name="AdhanActivityTheme" parent="Theme.AppCompat.NoActionBar">
+        <!-- Solid background matching app's nightDeep color -->
+        <item name="android:windowBackground">@color/adhan_background</item>
+        
+        <!-- No title bar -->
+        <item name="android:windowNoTitle">true</item>
+        
+        <!-- Full screen (no status bar) -->
+        <item name="android:windowFullscreen">true</item>
+        
+        <!-- Keep screen on -->
+        <item name="android:keepScreenOn">true</item>
+        
+        <!-- Dismiss keyguard -->
+        <item name="android:windowDisablePreview">true</item>
+        
+        <!-- No animation (instant display) -->
+        <item name="android:windowAnimationStyle">@null</item>
+        
+        <!-- Solid (not translucent) -->
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowIsFloating">false</item>
+        
+        <!-- High priority -->
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+</resources>

@@ -1,0 +1,105 @@
+{
+  "project_info": {
+    "project_number": "642462261542",
+    "project_id": "flutter-notes-fire",
+    "storage_bucket": "flutter-notes-fire.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:642462261542:android:2799379a562db85942a1e7",
+        "android_client_info": {
+          "package_name": "com.NourRamadan"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEVjo5OMBB5BUmaMaF3hTDI1Jom2TifFw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:642462261542:android:05cb6b0dff6a3f2e42a1e7",
+        "android_client_info": {
+          "package_name": "com.dashboard_n_ramadan"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEVjo5OMBB5BUmaMaF3hTDI1Jom2TifFw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:642462261542:android:d880fde49dfb688d42a1e7",
+        "android_client_info": {
+          "package_name": "com.nour_raamadaan"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEVjo5OMBB5BUmaMaF3hTDI1Jom2TifFw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:642462261542:android:c76cc0957e679be242a1e7",
+        "android_client_info": {
+          "package_name": "com.NourRamadan"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEVjo5OMBB5BUmaMaF3hTDI1Jom2TifFw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:642462261542:android:47fa9e37f4e1fa9842a1e7",
+        "android_client_info": {
+          "package_name": "com.NourRamadan_dashboard"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEVjo5OMBB5BUmaMaF3hTDI1Jom2TifFw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

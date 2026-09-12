@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    button_dismiss_background.xml
+    
+    Dismiss button background with gold gradient
+    Matches app's goldGradient (goldGlow -> goldWarm)
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    
+    <!-- Gold gradient (goldGlow #FFD97D -> goldWarm #C8922A) -->
+    <gradient
+        android:type="linear"
+        android:angle="135"
+        android:startColor="#FFD97D"
+        android:endColor="#C8922A" />
+    
+    <!-- Rounded corners -->
+    <corners android:radius="12dp" />
+    
+</shape>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ══════════════════════════════════════════════════════════════
+         AdhanActivity Colors
+         
+         Matches app's color palette from loading_screen.dart
+    ══════════════════════════════════════════════════════════════ -->
+    
+    <!-- Background: nightDeep (#08061A) -->
+    <color name="adhan_background">#08061A</color>
+    
+    <!-- Card: nightCard (#221A40) -->
+    <color name="adhan_card">#221A40</color>
+    
+    <!-- Gold colors -->
+    <color name="adhan_gold_warm">#C8922A</color>
+    <color name="adhan_gold_light">#F0C060</color>
+    <color name="adhan_gold_glow">#FFD97D</color>
+    
+    <!-- Text colors -->
+    <color name="adhan_text_primary">#F5E6CC</color>
+    <color name="adhan_text_dim">#9B8A6E</color>
+</resources>

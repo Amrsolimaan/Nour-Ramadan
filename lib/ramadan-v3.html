@@ -1,0 +1,2158 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نور رمضان — Flutter Screens Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --gold: #C8922A; --gold-l: #F0C060; --gold-g: #FFD97D;
+  --night: #08061A; --night-m: #130F2A; --ns: #1C1535; --nc: #221A40;
+  --plaster: #E8D5B0; --dim: #9B8A6E;
+  --gold-dim: #8B6520;
+  --lantern-r: #CC3300; --lantern-b: #004080; --lantern-g: #006633;
+  --text-primary: #F5E6CC; --text-dim: #9B8A6E;
+}
+html { scroll-behavior: smooth; }
+body {
+  background: #0A0714;
+  font-family: 'Tajawal', sans-serif;
+  color: var(--plaster);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ═══════════════════════════════════════
+   PAGE HEADER
+═══════════════════════════════════════ */
+.page-title {
+  text-align: center;
+  padding: 50px 20px 16px;
+  font-family: 'Noto Naskh Arabic', serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  background: linear-gradient(135deg, #FFD97D, #C8922A, #F0C060);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 20px rgba(200,146,42,0.4));
+  position: relative;
+  z-index: 20;
+}
+.page-sub {
+  text-align: center;
+  color: var(--dim);
+  font-size: 0.85rem;
+  letter-spacing: 3px;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 20;
+}
+
+/* ═══════════════════════════════════════
+   GEO BORDER (من الملف الأول)
+═══════════════════════════════════════ */
+.geo-border {
+  height: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0px, transparent 8px,
+    rgba(200,146,42,0.5) 8px, rgba(200,146,42,0.5) 10px
+  );
+  margin: 0 40px 30px;
+  position: relative;
+  z-index: 20;
+}
+.geo-border::before, .geo-border::after {
+  content: '❖';
+  position: absolute;
+  top: 50%; transform: translateY(-50%);
+  color: var(--gold);
+  font-size: 0.8rem;
+  background: #0A0714;
+  padding: 0 8px;
+}
+.geo-border::before { left: 0; }
+.geo-border::after { right: 0; }
+
+/* ═══════════════════════════════════════
+   ORNAMENT (من الملف الأول)
+═══════════════════════════════════════ */
+.ornament-big {
+  text-align: center;
+  color: rgba(200,146,42,0.45);
+  font-size: 1.1rem;
+  letter-spacing: 12px;
+  margin: 10px 0 20px;
+  position: relative;
+  z-index: 20;
+}
+
+/* ═══════════════════════════════════════
+   SKY & STARS (خلفية الصفحة كاملة)
+═══════════════════════════════════════ */
+.sky-layer {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    #03020F 0%, #0A0720 25%, #120E2E 50%, #1A132A 75%, #221A2E 100%
+  );
+  z-index: 0;
+}
+.stars-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+.star-bg {
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+  animation: twinkleBg var(--d, 3s) ease-in-out infinite alternate;
+}
+@keyframes twinkleBg {
+  0% { opacity: 0.15; transform: scale(1); }
+  100% { opacity: 0.9; transform: scale(1.4); }
+}
+
+/* ═══════════════════════════════════════
+   MOON (من الملف الأول - على مستوى الصفحة)
+═══════════════════════════════════════ */
+.moon-page {
+  position: fixed;
+  top: 50px;
+  right: 100px;
+  width: 65px;
+  height: 65px;
+  z-index: 2;
+  animation: moonFloatPage 8s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+.moon-page-body {
+  width: 65px; height: 65px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #FFF8DC, #F0C060, #C8922A);
+  box-shadow: 0 0 40px 10px rgba(240,192,96,0.35), 0 0 80px 20px rgba(200,146,42,0.15);
+}
+@keyframes moonFloatPage {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-14px); }
+}
+
+/* ═══════════════════════════════════════
+   LANTERNS ROPE (من الملف الأول - على مستوى الصفحة)
+═══════════════════════════════════════ */
+.lanterns-rope-page {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 260px;
+  z-index: 10;
+  pointer-events: none;
+  overflow: visible;
+}
+.rope-line {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: rgba(100,70,30,0.55);
+}
+.lantern-wrap-page {
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: swayPage var(--sw, 4s) ease-in-out infinite alternate;
+  transform-origin: top center;
+}
+@keyframes swayPage {
+  0% { transform: rotate(-4deg); }
+  100% { transform: rotate(4deg); }
+}
+.lantern-string-page {
+  width: 1px;
+  background: rgba(120,80,30,0.65);
+  height: var(--sh, 30px);
+}
+.lantern-body-page {
+  width: var(--lw, 28px);
+  height: var(--lh, 50px);
+  border-radius: 40% 40% 50% 50%;
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 20px var(--lg, rgba(255,150,0,0.8)), 0 0 40px var(--lg2, rgba(255,100,0,0.4));
+  animation: flickerPage var(--fl, 3s) ease-in-out infinite alternate;
+}
+@keyframes flickerPage {
+  0%, 100% { box-shadow: 0 0 15px var(--lg), 0 0 35px var(--lg2); }
+  50% { box-shadow: 0 0 28px var(--lg), 0 0 60px var(--lg2); }
+}
+.lantern-top-page, .lantern-bot-page {
+  position: absolute;
+  left: -4px; right: -4px;
+  height: 6px;
+  background: rgba(80,50,20,0.9);
+  border-radius: 3px;
+}
+.lantern-top-page { top: -3px; }
+.lantern-bot-page { bottom: -3px; }
+
+/* ═══════════════════════════════════════
+   PHONES GRID
+═══════════════════════════════════════ */
+.phones-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+  padding: 20px 30px 80px;
+  position: relative;
+  z-index: 20;
+}
+
+/* Phone frame */
+.phone {
+  width: 320px;
+  flex-shrink: 0;
+  background: #111;
+  border-radius: 44px;
+  padding: 12px;
+  box-shadow:
+    0 0 0 2px #333,
+    0 30px 80px rgba(0,0,0,0.8),
+    0 0 60px rgba(200,146,42,0.1);
+  position: relative;
+}
+.phone-label {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--gold);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.phone-screen {
+  border-radius: 36px;
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 9/19.5;
+  background: var(--night);
+}
+
+/* Status bar */
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px 6px;
+  font-size: 0.6rem;
+  color: var(--plaster);
+  position: relative;
+  z-index: 10;
+}
+
+/* ═══════════════════════════════════════
+   SPLASH SCREEN
+═══════════════════════════════════════ */
+.splash-bg {
+  background: linear-gradient(180deg, #03020F 0%, #0A0720 40%, #160E30 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.splash-stars { position: absolute; inset: 0; z-index: 1; }
+.splash-star {
+  position: absolute;
+  width: 2px; height: 2px;
+  background: white;
+  border-radius: 50%;
+  animation: tw 3s ease-in-out infinite alternate;
+}
+@keyframes tw { 0%{opacity:0.2} 100%{opacity:1} }
+.splash-moon {
+  position: absolute;
+  top: 40px; right: 50px;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #FFF8DC, #F0C060, #C8922A);
+  box-shadow: 0 0 20px rgba(240,192,96,0.5);
+  animation: mf 6s ease-in-out infinite alternate;
+  z-index: 2;
+}
+@keyframes mf { 0%{transform:translateY(0)} 100%{transform:translateY(-6px)} }
+.splash-candle {
+  font-size: 3.5rem;
+  filter: drop-shadow(0 0 15px rgba(255,150,0,0.8));
+  animation: cf 1s ease-in-out infinite alternate;
+}
+@keyframes cf {
+  0%{filter:drop-shadow(0 0 10px rgba(255,150,0,0.6))}
+  100%{filter:drop-shadow(0 0 25px rgba(255,200,0,1))}
+}
+.splash-title {
+  font-family: 'Noto Naskh Arabic', serif;
+  font-size: 2rem;
+  background: linear-gradient(135deg, #FFD97D, #C8922A);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  margin: 10px 0 5px;
+}
+.splash-sub { font-size: 0.55rem; color: var(--dim); letter-spacing: 2px; }
+.splash-bar {
+  width: 130px; height: 2px;
+  background: rgba(200,146,42,0.2);
+  border-radius: 1px;
+  margin-top: 20px;
+  overflow: hidden;
+}
+.splash-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #C8922A, #F0C060);
+  animation: lp 2.5s ease-out infinite;
+  width: 0;
+}
+@keyframes lp { 0%{width:0} 100%{width:100%} }
+.splash-buildings {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 62%;
+  z-index: 3;
+}
+.splash-buildings svg { width: 100%; height: 100%; display: block; }
+
+/* ── Splash زينة: فوانيس داخل الـ splash ── */
+.splash-rope {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1.5px;
+  background: rgba(100,70,30,0.55);
+  z-index: 6;
+}
+.splash-lanterns-row {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 85px;
+  z-index: 6;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  pointer-events: none;
+}
+.sp-lan-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: spSway var(--spSw, 3s) ease-in-out infinite alternate;
+  transform-origin: top center;
+}
+@keyframes spSway { 0%{transform:rotate(-5deg)} 100%{transform:rotate(5deg)} }
+.sp-lan-string {
+  width: 1px;
+  background: rgba(120,80,30,0.55);
+  height: var(--spH, 14px);
+}
+.sp-lan-body {
+  width: var(--spW, 11px);
+  height: var(--spHb, 19px);
+  border-radius: 40% 40% 50% 50%;
+  box-shadow: 0 0 8px var(--spC), 0 0 18px var(--spC2);
+  animation: spFlicker var(--spF, 2s) ease-in-out infinite alternate;
+  position: relative;
+}
+@keyframes spFlicker {
+  0%{box-shadow:0 0 5px var(--spC),0 0 12px var(--spC2)}
+  100%{box-shadow:0 0 12px var(--spC),0 0 28px var(--spC2)}
+}
+.sp-lan-top, .sp-lan-bot {
+  position: absolute;
+  left: -2px; right: -2px;
+  height: 3px;
+  background: rgba(60,30,10,0.9);
+  border-radius: 2px;
+}
+.sp-lan-top{top:-1.5px} .sp-lan-bot{bottom:-1.5px}
+
+/* ── زخرفة تحت الفوانيس ── */
+.splash-ornament-bar {
+  position: absolute;
+  top: 88px; left: 0; right: 0;
+  text-align: center;
+  font-size: 0.5rem;
+  letter-spacing: 8px;
+  color: rgba(200,146,42,0.45);
+  z-index: 6;
+  pointer-events: none;
+}
+.splash-geo-strip {
+  position: absolute;
+  top: 100px; left: 6%; right: 6%;
+  height: 1px;
+  background: repeating-linear-gradient(
+    90deg, transparent 0px, transparent 4px,
+    rgba(200,146,42,0.35) 4px, rgba(200,146,42,0.35) 5px
+  );
+  z-index: 6;
+  pointer-events: none;
+}
+.splash-geo-strip::before, .splash-geo-strip::after {
+  content: '❖';
+  position: absolute;
+  top: 50%; transform: translateY(-50%);
+  color: rgba(200,146,42,0.5);
+  font-size: 0.4rem;
+}
+.splash-geo-strip::before{left:-5px} .splash-geo-strip::after{right:-5px}
+
+/* ── Splash إضاءة المباني ── */
+.splash-bld-glow {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 63%;
+  z-index: 4;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(200,140,40,0.06) 30%,
+    rgba(180,120,30,0.12) 55%,
+    rgba(160,100,20,0.20) 80%,
+    rgba(140,80,10,0.28) 100%
+  );
+}
+
+/* ── LIGHT MODE splash ── */
+.splash-light {
+  background: linear-gradient(180deg, #8AAFD0 0%, #C4DDF5 35%, #E6D8BE 70%, #D2BE96 100%) !important;
+}
+.splash-light .splash-title {
+  background: linear-gradient(135deg, #7A5820, #C8922A) !important;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.splash-light .splash-sub { color: #7A6040 !important; }
+.splash-light .splash-moon { opacity: 0.7; box-shadow: 0 0 12px rgba(200,160,60,0.3); }
+.splash-light .splash-ornament-bar { color: rgba(140,90,20,0.5) !important; }
+.splash-light .splash-rope { background: rgba(130,90,40,0.4) !important; }
+.splash-light .splash-bar { background: rgba(150,100,30,0.2) !important; }
+
+/* ═══════════════════════════════════════
+   ATHKAR SCREEN — شاشة الأذكار
+═══════════════════════════════════════ */
+.athkar-bg {
+  background: var(--night);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.athkar-scroll {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.athkar-scroll::-webkit-scrollbar { display: none; }
+.athkar-tabs-bar {
+  display: flex;
+  gap: 6px;
+  padding: 8px 14px 10px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-bottom: 1px solid rgba(200,146,42,0.12);
+  background: rgba(200,146,42,0.03);
+}
+.athkar-tabs-bar::-webkit-scrollbar { display: none; }
+.ath-tab {
+  padding: 5px 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(200,146,42,0.22);
+  background: rgba(200,146,42,0.04);
+  color: var(--dim);
+  font-size: 0.62rem;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+.ath-tab.active {
+  background: rgba(200,146,42,0.18);
+  border-color: var(--gold);
+  color: var(--gold-l);
+}
+.ath-section-label {
+  font-size: 0.5rem;
+  letter-spacing: 2px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin: 10px 14px 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ath-section-label::before { content:''; width:10px; height:1px; background:var(--gold); }
+.ath-section-label::after { content:''; flex:1; height:1px; background:linear-gradient(90deg,rgba(200,146,42,0.3),transparent); }
+.ath-card {
+  margin: 6px 14px;
+  background: linear-gradient(135deg, rgba(34,26,64,0.92), rgba(22,17,40,0.95));
+  border: 1px solid rgba(200,146,42,0.15);
+  border-radius: 14px;
+  padding: 13px;
+}
+.ath-card.featured {
+  border-color: rgba(200,146,42,0.38);
+  background: linear-gradient(135deg, rgba(44,34,76,0.95), rgba(30,22,56,0.98));
+}
+.ath-text {
+  font-family: 'Noto Naskh Arabic', serif;
+  font-size: 0.88rem;
+  line-height: 1.95;
+  color: var(--plaster);
+  text-align: right;
+  margin-bottom: 8px;
+}
+.ath-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 6px;
+  border-top: 1px solid rgba(200,146,42,0.1);
+}
+.ath-source { font-size: 0.52rem; color: var(--gold); }
+.ath-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: rgba(200,146,42,0.12);
+  border: 1px solid rgba(200,146,42,0.3);
+  border-radius: 8px;
+  padding: 2px 8px;
+  font-size: 0.58rem;
+  color: var(--gold-l);
+}
+.ath-prog {
+  margin-top: 6px;
+  height: 2px;
+  background: rgba(200,146,42,0.12);
+  border-radius: 1px;
+  overflow: hidden;
+}
+.ath-prog-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), var(--gold-l));
+  border-radius: 1px;
+}
+.ath-btns {
+  display: flex;
+  gap: 5px;
+  margin-top: 7px;
+}
+.ath-btn {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  border: 1px solid rgba(200,146,42,0.25);
+  background: rgba(200,146,42,0.04);
+  color: var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.6rem;
+  cursor: pointer;
+}
+
+/* ═══════════════════════════════════════
+   HOME SCREEN
+═══════════════════════════════════════ */
+.home-bg {
+  background: linear-gradient(180deg, #08061A 0%, #130F2A 60%, #1A1020 100%);
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+.home-lanterns {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 60px;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  z-index: 5;
+}
+.home-lantern {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: sw var(--sw) ease-in-out infinite alternate;
+  transform-origin: top center;
+}
+@keyframes sw { 0%{transform:rotate(-5deg)} 100%{transform:rotate(5deg)} }
+.hl-string { width: 1px; height: var(--hs); background: rgba(120,80,30,0.6); }
+.hl-body {
+  width: var(--lw); height: var(--lh);
+  border-radius: 40% 40% 50% 50%;
+  box-shadow: 0 0 12px var(--lc), 0 0 25px var(--lc2);
+  animation: lf 2s ease-in-out infinite alternate;
+}
+@keyframes lf {
+  0%{box-shadow: 0 0 8px var(--lc), 0 0 20px var(--lc2)}
+  100%{box-shadow: 0 0 18px var(--lc), 0 0 40px var(--lc2)}
+}
+.home-scroll {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  padding: 70px 16px 20px;
+  z-index: 4;
+  scrollbar-width: none;
+}
+.home-scroll::-webkit-scrollbar { display: none; }
+.home-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+.home-title-main {
+  font-family: 'Noto Naskh Arabic', serif;
+  font-size: 1.4rem;
+  background: linear-gradient(135deg, #FFD97D, #C8922A);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.home-subtitle { font-size: 0.65rem; color: var(--dim); margin-top: 2px; }
+.home-menu { font-size: 1.2rem; color: var(--gold); }
+
+.gold-card {
+  background: linear-gradient(135deg, rgba(34,26,64,0.95), rgba(22,17,40,0.98));
+  border: 1px solid rgba(200,146,42,0.25);
+  border-radius: 18px;
+  padding: 18px;
+  margin-bottom: 14px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4), inset 0 1px 0 rgba(200,146,42,0.1);
+  position: relative;
+  overflow: hidden;
+}
+.gold-card::before {
+  content:'';
+  position:absolute;
+  top:-30px; right:-30px;
+  width:100px; height:100px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(200,146,42,0.06), transparent 70%);
+}
+.card-label {
+  font-size: 0.55rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.card-label::before { content:''; width:14px; height:1px; background:var(--gold); }
+.verse-text {
+  font-family: 'Noto Naskh Arabic', serif;
+  font-size: 1rem;
+  line-height: 2;
+  color: var(--plaster);
+  text-align: center;
+}
+.verse-ref { text-align: center; font-size: 0.6rem; color: var(--gold); margin-top: 8px; }
+.prayer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 7px 10px;
+  border-radius: 10px;
+  margin-bottom: 4px;
+  border: 1px solid transparent;
+}
+.prayer-row.active {
+  background: linear-gradient(135deg, rgba(200,146,42,0.15), rgba(240,192,96,0.05));
+  border-color: rgba(200,146,42,0.4);
+}
+.pr-name { font-size: 0.75rem; color: var(--plaster); }
+.pr-time { font-family: 'Amiri', serif; font-size: 0.8rem; color: var(--gold-l); }
+.pr-badge {
+  font-size: 0.5rem;
+  background: var(--gold);
+  color: var(--night);
+  padding: 1px 6px;
+  border-radius: 8px;
+  font-weight: 700;
+}
+.countdown-block {
+  text-align: center;
+  padding: 10px;
+  background: rgba(200,146,42,0.08);
+  border-radius: 12px;
+  margin-top: 12px;
+  border: 1px solid rgba(200,146,42,0.15);
+}
+.ct-label { font-size: 0.55rem; color: var(--dim); margin-bottom: 4px; }
+.ct-time {
+  font-family: 'Amiri', serif;
+  font-size: 1.6rem;
+  color: var(--gold-l);
+  letter-spacing: 3px;
+  text-shadow: 0 0 15px rgba(200,146,42,0.5);
+}
+.features-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 4px;
+}
+.feat-card {
+  background: linear-gradient(135deg, rgba(34,26,64,0.9), rgba(22,17,40,0.95));
+  border: 1px solid rgba(200,146,42,0.15);
+  border-radius: 14px;
+  padding: 14px 12px;
+  text-align: center;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.feat-card:hover {
+  border-color: rgba(200,146,42,0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+.feat-icon { font-size: 1.5rem; display: block; margin-bottom: 6px; }
+.feat-name { font-family: 'Noto Naskh Arabic', serif; font-size: 0.75rem; color: var(--plaster); }
+.feat-desc { font-size: 0.6rem; color: var(--dim); margin-top: 3px; }
+
+/* ── Geo border inside phone ── */
+.geo-border-sm {
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0px, transparent 5px,
+    rgba(200,146,42,0.4) 5px, rgba(200,146,42,0.4) 6px
+  );
+  margin: 8px 0;
+  position: relative;
+}
+.geo-border-sm::before, .geo-border-sm::after {
+  content: '❖';
+  position: absolute;
+  top: 50%; transform: translateY(-50%);
+  color: var(--gold);
+  font-size: 0.5rem;
+  background: #130F2A;
+  padding: 0 4px;
+}
+.geo-border-sm::before { left: 0; }
+.geo-border-sm::after { right: 0; }
+
+/* ─── ornament inside phone ─── */
+.ornament {
+  color: rgba(200,146,42,0.35);
+  letter-spacing: 6px;
+  font-size: 0.6rem;
+  text-align: center;
+  margin: 4px 0;
+}
+
+/* ═══════════════════════════════════════
+   QURAN SCREEN
+═══════════════════════════════════════ */
+.quran-bg {
+  background: var(--night);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.screen-header {
+  padding: 8px 16px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(200,146,42,0.12);
+}
+.sh-title { font-family: 'Noto Naskh Arabic', serif; font-size: 1rem; color: var(--plaster); }
+.sh-icon { color: var(--gold); font-size: 1rem; }
+.sh-back { color: var(--gold); font-size: 0.8rem; }
+.sheikh-bar {
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(200,146,42,0.06);
+  border-bottom: 1px solid rgba(200,146,42,0.1);
+}
+.sheikh-name { font-size: 0.75rem; color: var(--gold-l); flex: 1; }
+.sheikh-change {
+  font-size: 0.6rem;
+  color: var(--gold);
+  border: 1px solid rgba(200,146,42,0.3);
+  padding: 3px 8px;
+  border-radius: 10px;
+}
+.tab-bar {
+  display: flex;
+  border-bottom: 1px solid rgba(200,146,42,0.12);
+}
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  font-size: 0.7rem;
+  color: var(--dim);
+}
+.tab.active {
+  color: var(--gold);
+  border-bottom: 2px solid var(--gold);
+}
+.surah-list { flex: 1; overflow-y: auto; padding: 8px 16px; scrollbar-width: none; }
+.surah-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(200,146,42,0.08);
+}
+.surah-num {
+  width: 28px; height: 28px;
+  background: rgba(200,146,42,0.1);
+  border: 1px solid rgba(200,146,42,0.3);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Amiri', serif;
+  font-size: 0.65rem;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+.surah-info { flex: 1; }
+.surah-name-ar { font-family: 'Noto Naskh Arabic', serif; font-size: 0.85rem; color: var(--plaster); }
+.surah-meta { font-size: 0.55rem; color: var(--dim); margin-top: 1px; }
+.surah-play { color: var(--gold); font-size: 1rem; }
+.audio-player {
+  padding: 10px 16px;
+  background: rgba(200,146,42,0.08);
+  border-top: 1px solid rgba(200,146,42,0.15);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ap-name { font-size: 0.6rem; color: var(--dim); flex: 1; }
+.ap-controls { display: flex; gap: 8px; color: var(--gold); font-size: 1rem; align-items: center; }
+.ap-progress { position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: rgba(200,146,42,0.2); }
+.ap-fill { height: 100%; width: 40%; background: var(--gold); }
+
+/* ═══════════════════════════════════════
+   QURAN READER
+═══════════════════════════════════════ */
+.reader-bg {
+  background: var(--night-m);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.reader-content { flex: 1; overflow-y: auto; padding: 12px 16px; scrollbar-width: none; }
+.bismillah {
+  font-family: 'Amiri', serif;
+  font-size: 1.1rem;
+  color: var(--gold-l);
+  text-align: center;
+  margin: 10px 0 16px;
+}
+.verse-block {
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(200,146,42,0.08);
+}
+.verse-block.playing {
+  background: linear-gradient(135deg, rgba(200,146,42,0.08), transparent);
+  border-radius: 10px;
+  padding: 10px;
+  border: 1px solid rgba(200,146,42,0.25);
+  margin: 0 -4px;
+}
+.verse-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px; height: 20px;
+  background: rgba(200,146,42,0.15);
+  border-radius: 50%;
+  font-size: 0.5rem;
+  color: var(--gold);
+  margin-left: 6px;
+  font-family: 'Amiri', serif;
+}
+.verse-arabic {
+  font-family: 'Noto Naskh Arabic', serif;
+  font-size: 1.05rem;
+  line-height: 2.1;
+  color: var(--plaster);
+  text-align: right;
+}
+.verse-arabic.highlighted { color: var(--gold-g); }
+.reader-player {
+  padding: 10px 16px 14px;
+  background: rgba(34,26,64,0.98);
+  border-top: 1px solid rgba(200,146,42,0.2);
+}
+.rp-surah { font-size: 0.65rem; color: var(--dim); margin-bottom: 6px; text-align: center; }
+.rp-controls { display: flex; justify-content: center; align-items: center; gap: 16px; }
+.rp-btn { color: var(--gold); font-size: 0.9rem; }
+.rp-play {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-l));
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  box-shadow: 0 0 15px rgba(200,146,42,0.4);
+}
+.rp-track {
+  margin-top: 8px;
+  height: 2px;
+  background: rgba(200,146,42,0.2);
+  border-radius: 1px;
+  position: relative;
+}
+.rp-fill { height: 100%; width: 35%; background: var(--gold); border-radius: 1px; }
+.rp-dot {
+  position: absolute;
+  top: 50%; transform: translateY(-50%);
+  left: 35%;
+  width: 8px; height: 8px;
+  background: var(--gold-l);
+  border-radius: 50%;
+  margin-left: -4px;
+}
+
+/* ═══════════════════════════════════════
+   SETTINGS SCREEN
+═══════════════════════════════════════ */
+.settings-bg {
+  background: var(--night);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.settings-scroll { flex: 1; overflow-y: auto; padding: 0 16px 20px; scrollbar-width: none; }
+.settings-title {
+  font-size: 0.6rem;
+  color: var(--gold);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 14px 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.settings-title::after { content:''; flex:1; height:1px; background:rgba(200,146,42,0.2); }
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  background: rgba(34,26,64,0.8);
+  border: 1px solid rgba(200,146,42,0.12);
+  border-radius: 12px;
+  margin-bottom: 6px;
+}
+.setting-left { display: flex; align-items: center; gap: 8px; }
+.setting-icon { font-size: 1rem; }
+.setting-name { font-size: 0.75rem; color: var(--plaster); }
+.setting-value { font-size: 0.65rem; color: var(--gold); }
+.toggle {
+  width: 36px; height: 20px;
+  background: var(--gold);
+  border-radius: 10px;
+  position: relative;
+}
+.toggle::after {
+  content:'';
+  position:absolute;
+  right: 2px; top: 2px;
+  width: 16px; height: 16px;
+  background: white;
+  border-radius: 50%;
+}
+.toggle.off { background: rgba(100,100,100,0.4); }
+.toggle.off::after { right: auto; left: 2px; }
+.sheikh-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: rgba(34,26,64,0.8);
+  border: 1px solid rgba(200,146,42,0.12);
+  border-radius: 12px;
+  margin-bottom: 6px;
+}
+.sheikh-option.selected { border-color: var(--gold); background: rgba(200,146,42,0.1); }
+.so-radio {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  display: flex; align-items: center; justify-content: center;
+}
+.so-radio.on::after {
+  content:'';
+  width:8px; height:8px;
+  background:var(--gold);
+  border-radius:50%;
+}
+.so-name { font-family: 'Noto Naskh Arabic', serif; font-size: 0.8rem; color: var(--plaster); flex:1; }
+.so-play { color: var(--gold); font-size: 0.9rem; }
+
+/* ═══════════════════════════════════════
+   TASBIH SCREEN
+═══════════════════════════════════════ */
+.tasbih-bg {
+  background: radial-gradient(ellipse at 50% 30%, #1C1040, #08061A 70%);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+.tasbih-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 0 20px;
+  width: 100%;
+}
+.tasbih-types { display: flex; gap: 8px; }
+.t-type {
+  padding: 5px 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(200,146,42,0.25);
+  font-size: 0.65rem;
+  color: var(--dim);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.t-type.active {
+  background: rgba(200,146,42,0.15);
+  border-color: var(--gold);
+  color: var(--gold-l);
+}
+.tasbih-label { font-family: 'Noto Naskh Arabic', serif; font-size: 0.9rem; color: var(--dim); }
+.tasbih-counter {
+  font-family: 'Amiri', serif;
+  font-size: 4rem;
+  color: var(--gold-l);
+  text-shadow: 0 0 30px rgba(200,146,42,0.6);
+  line-height: 1;
+}
+.tasbih-target { font-size: 0.65rem; color: var(--dim); }
+.tasbih-bead-btn {
+  width: 110px; height: 110px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #F0C060, #C8922A, #8B6520);
+  box-shadow:
+    0 0 30px rgba(200,146,42,0.6),
+    0 0 60px rgba(200,146,42,0.2),
+    inset 0 -4px 12px rgba(0,0,0,0.3),
+    inset 0 4px 12px rgba(255,255,255,0.1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+.tasbih-bead-btn:active { transform: scale(0.93); }
+.tasbih-note { font-size: 0.6rem; color: rgba(155,138,110,0.6); text-align: center; }
+.tasbih-progress-bar {
+  width: 180px; height: 3px;
+  background: rgba(200,146,42,0.15);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.tp-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-l)); border-radius: 2px; }
+
+/* ═══════════════════════════════════════
+   QIBLA SCREEN
+═══════════════════════════════════════ */
+.qibla-bg {
+  background: radial-gradient(ellipse at 50% 20%, #1C1040, #08061A 70%);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.qibla-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+.compass-outer {
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  border: 2px solid rgba(200,146,42,0.4);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle, rgba(200,146,42,0.04), transparent);
+  box-shadow: 0 0 30px rgba(200,146,42,0.15), inset 0 0 30px rgba(0,0,0,0.3);
+}
+.compass-outer::before {
+  content:'';
+  position:absolute;
+  inset:8px;
+  border-radius:50%;
+  border:1px solid rgba(200,146,42,0.15);
+}
+.compass-needle {
+  position: absolute;
+  width: 3px; height: 70px;
+  border-radius: 2px;
+  bottom: 50%;
+  left: 50%;
+  margin-left: -1.5px;
+  transform-origin: bottom center;
+  transform: rotate(40deg);
+}
+.cn-north { background: linear-gradient(180deg, #CC4422, #881100); }
+.cn-south { background: linear-gradient(0deg, #C8922A, #8B6520); }
+.compass-center {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #F0C060, #C8922A);
+  box-shadow: 0 0 8px rgba(200,146,42,0.6);
+  z-index: 2;
+}
+.kaaba-top { position: absolute; top: 8px; font-size: 1rem; }
+.compass-labels { position: absolute; inset: 0; }
+.cl { position: absolute; font-size: 0.5rem; color: var(--gold); }
+.cl-n { top: 16px; left: 50%; transform: translateX(-50%); }
+.cl-s { bottom: 16px; left: 50%; transform: translateX(-50%); }
+.cl-e { left: 16px; top: 50%; transform: translateY(-50%); }
+.cl-w { right: 16px; top: 50%; transform: translateY(-50%); }
+.qibla-degree {
+  font-family: 'Amiri', serif;
+  font-size: 2rem;
+  color: var(--gold-l);
+  text-shadow: 0 0 15px rgba(200,146,42,0.4);
+}
+.qibla-city { font-size: 0.65rem; color: var(--dim); }
+
+/* ═══════════════════════════════════════
+   DUA SCREEN (من الملف الأول)
+═══════════════════════════════════════ */
+.dua-bg {
+  background: var(--night);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.dua-scroll { flex: 1; overflow-y: auto; padding: 8px 16px 16px; scrollbar-width: none; }
+.dua-scroll::-webkit-scrollbar { display: none; }
+.dua-categories {
+  display: flex;
+  gap: 6px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  margin-bottom: 14px;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+}
+.dua-categories::-webkit-scrollbar { display: none; }
+.cat-pill {
+  padding: 4px 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(200,146,42,0.25);
+  background: rgba(200,146,42,0.05);
+  color: var(--gold-l);
+  font-size: 0.65rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.3s;
+}
+.cat-pill.active, .cat-pill:hover {
+  background: rgba(200,146,42,0.2);
+  border-color: var(--gold);
+}
+.dua-card {
+  background: linear-gradient(135deg, rgba(34,26,64,0.92), rgba(28,21,53,0.95));
+  border: 1px solid rgba(200,146,42,0.2);
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 10px;
+  transition: all 0.3s;
+}
+.dua-card:hover {
+  border-color: rgba(200,146,42,0.4);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+.dua-arabic {
+  font-family: 'Noto Naskh Arabic', serif;
+  font-size: 0.95rem;
+  line-height: 2;
+  color: var(--plaster);
+  margin-bottom: 10px;
+  text-align: right;
+}
+/* Footer: المصدر + الأزرار في نفس الصف */
+.dua-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 8px;
+  border-top: 1px solid rgba(200,146,42,0.1);
+}
+.dua-source {
+  font-size: 0.58rem;
+  color: var(--gold);
+  border-right: 2px solid var(--gold);
+  padding-right: 7px;
+  flex: 1;
+}
+.dua-actions {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+.dua-btn {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  border: 1px solid rgba(200,146,42,0.3);
+  background: rgba(200,146,42,0.05);
+  color: var(--gold);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.65rem;
+  transition: all 0.3s;
+}
+.dua-btn:hover {
+  background: rgba(200,146,42,0.2);
+  border-color: var(--gold);
+}
+
+/* ═══════════════════════════════════════
+   PROGRESS SCREEN (من الملف الأول)
+═══════════════════════════════════════ */
+.progress-bg {
+  background: var(--night);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.progress-scroll { flex: 1; overflow-y: auto; padding: 8px 16px 16px; scrollbar-width: none; }
+.progress-scroll::-webkit-scrollbar { display: none; }
+.progress-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 8px;
+}
+.stat-card {
+  background: linear-gradient(135deg, rgba(34,26,64,0.9), rgba(22,17,40,0.95));
+  border: 1px solid rgba(200,146,42,0.2);
+  border-radius: 14px;
+  padding: 16px;
+  text-align: center;
+}
+.stat-icon { font-size: 1.4rem; margin-bottom: 6px; }
+.stat-value {
+  font-family: 'Amiri', serif;
+  font-size: 2rem;
+  color: var(--gold-l);
+  line-height: 1;
+  margin-bottom: 4px;
+  text-shadow: 0 0 12px rgba(200,146,42,0.4);
+}
+.stat-label { font-size: 0.65rem; color: var(--dim); }
+
+/* ── Gold section title (used in some screens) ── */
+.gold-section-title {
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  margin-top: 12px;
+}
+.gold-section-title::before { content:''; width:12px; height:1px; background:var(--gold); }
+.gold-section-title::after { content:''; flex:1; height:1px; background:linear-gradient(90deg, rgba(200,146,42,0.3), transparent); }
+
+/* ═══════════════════════════════════════
+   NAV BAR
+═══════════════════════════════════════ */
+.nav-bar {
+  display: flex;
+  padding: 8px 10px 12px;
+  background: rgba(13,10,26,0.98);
+  border-top: 1px solid rgba(200,146,42,0.1);
+  position: relative;
+  z-index: 10;
+}
+.nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+}
+.nav-icon { font-size: 1.1rem; }
+.nav-label { font-size: 0.45rem; color: var(--dim); }
+.nav-item.active .nav-icon { filter: drop-shadow(0 0 6px rgba(200,146,42,0.8)); }
+.nav-item.active .nav-label { color: var(--gold); }
+
+/* ═══════════════════════════════════════
+   SECTION DIVIDER (بين مجموعات الهواتف)
+═══════════════════════════════════════ */
+.section-divider {
+  text-align: center;
+  margin: 20px auto 30px;
+  width: 100%;
+  position: relative;
+  z-index: 20;
+}
+.section-divider-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(200,146,42,0.4), transparent);
+  margin: 10px 60px;
+}
+.section-divider-text {
+  font-family: 'Noto Naskh Arabic', serif;
+  font-size: 1.1rem;
+  color: var(--gold);
+  letter-spacing: 6px;
+}
+
+/* ═══════════════════════════════════════
+   BOTTOM ORNAMENT
+═══════════════════════════════════════ */
+.bottom-ornament {
+  text-align: center;
+  color: rgba(200,146,42,0.4);
+  font-size: 1.2rem;
+  letter-spacing: 14px;
+  padding: 30px 0 60px;
+  position: relative;
+  z-index: 20;
+}
+</style>
+</head>
+<body>
+
+<!-- SKY BACKGROUND -->
+<div class="sky-layer"></div>
+<div class="stars-bg" id="stars-bg"></div>
+
+<!-- MOON ON PAGE LEVEL -->
+<div class="moon-page"><div class="moon-page-body"></div></div>
+
+<!-- LANTERNS ROPE ON PAGE LEVEL -->
+<div class="lanterns-rope-page" id="lanterns-page">
+  <div class="rope-line"></div>
+</div>
+
+<!-- PAGE HEADER -->
+<div class="page-title">🌙 نور رمضان — Flutter</div>
+<div class="page-sub">SCREEN DESIGNS • معاينة الشاشات</div>
+
+<div class="geo-border"></div>
+<div class="ornament-big">❋ ✦ ❋ ✦ ❋ ✦ ❋</div>
+
+<div class="section-divider">
+  <div class="section-divider-text">✦ الشاشات الأساسية ✦</div>
+  <div class="section-divider-line"></div>
+</div>
+
+<div class="phones-grid">
+
+  <!-- PHONE 1: SPLASH DARK (الافتراضي) -->
+  <div>
+    <div class="phone-label">شاشة التحميل — Dark</div>
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="splash-bg" id="splash-dark">
+          <div class="splash-stars" id="s1"></div>
+          <div class="splash-moon"></div>
+          <!-- حبل وفوانيس زينة داخل الـ splash -->
+          <div class="splash-rope"></div>
+          <div class="splash-lanterns-row" id="sp-lan-dark"></div>
+          <div class="splash-ornament-bar">❋ ✦ ❋ ✦ ❋</div>
+          <div class="splash-geo-strip"></div>
+          <!-- المباني بإضاءة محسّنة -->
+          <div class="splash-buildings">
+            <svg viewBox="0 0 296 160" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <pattern id="st" x="0" y="0" width="16" height="9" patternUnits="userSpaceOnUse"><line x1="0" y1="4.5" x2="16" y2="4.5" stroke="rgba(255,255,255,0.04)" stroke-width="0.5"/></pattern>
+  <pattern id="ab" x="0" y="0" width="100" height="7" patternUnits="userSpaceOnUse"><rect width="100" height="3.5" fill="#4A3A22"/><rect y="3.5" width="100" height="3.5" fill="#2E2210"/></pattern>
+  <pattern id="ms" x="0" y="0" width="5" height="5" patternUnits="userSpaceOnUse"><rect width="5" height="5" fill="#1A0E04"/><line x1="0" y1="2.5" x2="5" y2="2.5" stroke="#2E1A08" stroke-width="1.3"/><line x1="2.5" y1="0" x2="2.5" y2="5" stroke="#2E1A08" stroke-width="1.3"/></pattern>
+  <pattern id="gp" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse"><polygon points="5,0 10,5 5,10 0,5" fill="none" stroke="rgba(220,180,70,0.32)" stroke-width="0.7"/></pattern>
+  <radialGradient id="wg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="rgba(255,210,80,0.55)"/><stop offset="100%" stop-color="rgba(255,150,30,0)"/></radialGradient>
+  <radialGradient id="amb" cx="50%" cy="10%" r="90%"><stop offset="0%" stop-color="rgba(220,160,50,0.22)"/><stop offset="100%" stop-color="rgba(200,130,30,0)"/></radialGradient>
+  <radialGradient id="streetGlow" cx="50%" cy="100%" r="55%"><stop offset="0%" stop-color="rgba(255,180,50,0.30)"/><stop offset="100%" stop-color="rgba(255,140,20,0)"/></radialGradient>
+</defs>
+<!-- ضوء قمري عام -->
+<rect x="0" y="0" width="296" height="160" fill="url(#amb)"/>
+<!-- الشارع -->
+<rect x="0" y="152" width="296" height="8" fill="#1A1208"/>
+<!-- ضوء الشارع -->
+<rect x="0" y="130" width="296" height="30" fill="url(#streetGlow)"/>
+<!-- بقع ضوء ذهبية -->
+<ellipse cx="40" cy="158" rx="35" ry="4" fill="rgba(255,190,60,0.22)"/>
+<ellipse cx="100" cy="158" rx="40" ry="4" fill="rgba(255,170,50,0.18)"/>
+<ellipse cx="165" cy="158" rx="45" ry="4" fill="rgba(255,190,60,0.25)"/>
+<ellipse cx="232" cy="158" rx="45" ry="4" fill="rgba(255,170,50,0.20)"/>
+<ellipse cx="278" cy="158" rx="28" ry="4" fill="rgba(255,190,60,0.18)"/>
+<!-- B1 -->
+<rect x="0" y="48" width="58" height="107" fill="#3C2E1A"/><rect x="0" y="48" width="58" height="107" fill="url(#ab)" opacity="0.6"/><rect x="0" y="48" width="58" height="107" fill="url(#st)"/>
+<rect x="0" y="46" width="58" height="3" fill="#4A381E"/>
+<path d="M0,49 Q3.5,56 7,49 Q10.5,56 14,49 Q17.5,56 21,49 Q24.5,56 28,49 Q31.5,56 35,49 Q38.5,56 42,49 Q45.5,56 49,49 Q52.5,56 56,49" fill="#382A16" stroke="rgba(255,220,100,0.1)" stroke-width="0.5"/>
+<!-- نوافذ B1 مضيئة -->
+<rect x="4" y="50" width="20" height="19" fill="#1E1810"/>
+<path d="M6,69 Q6,50 14,50 Q22,50 22,69 Z" fill="#0A0604"/>
+<rect x="6" y="50" width="16" height="19" fill="rgba(255,210,80,0.42)"/>
+<rect x="6" y="50" width="16" height="19" fill="url(#wg)" opacity="0.5"/>
+<rect x="34" y="50" width="20" height="19" fill="#1E1810"/>
+<path d="M36,69 Q36,50 44,50 Q52,50 52,69 Z" fill="#0A0604"/>
+<rect x="36" y="50" width="16" height="19" fill="rgba(255,200,70,0.35)"/>
+<rect x="0" y="70" width="58" height="1.8" fill="#4A3820"/>
+<rect x="0" y="72" width="58" height="19" fill="#1A0E04"/>
+<rect x="2" y="74" width="16" height="15" fill="url(#ms)"/><rect x="2" y="74" width="16" height="15" fill="rgba(255,210,80,0.25)"/>
+<rect x="20" y="74" width="16" height="15" fill="url(#ms)"/><rect x="20" y="74" width="16" height="15" fill="rgba(255,200,60,0.32)"/>
+<rect x="38" y="74" width="17" height="15" fill="url(#ms)"/><rect x="38" y="74" width="17" height="15" fill="rgba(255,210,80,0.20)"/>
+<rect x="0" y="91" width="58" height="1.8" fill="#4A3820"/>
+<rect x="4" y="93" width="22" height="16" fill="#1A1208"/>
+<rect x="6" y="93" width="7" height="16" fill="rgba(255,200,70,0.45)"/>
+<rect x="32" y="93" width="22" height="16" fill="#1A1208"/>
+<rect x="34" y="93" width="7" height="16" fill="rgba(255,210,80,0.40)"/>
+<rect x="0" y="112" width="58" height="43" fill="#221408"/>
+<path d="M3,155 Q3,130 15,122 Q27,130 27,155 Z" fill="#0A0604"/>
+<rect x="3" y="135" width="24" height="20" fill="rgba(255,160,40,0.15)"/>
+<path d="M31,155 Q31,130 45,122 Q59,130 59,155 Z" fill="#0A0604"/>
+<!-- Minaret -->
+<rect x="58" y="14" width="7" height="50" fill="#2E2818"/>
+<polygon points="57,14 61.5,2 66,14" fill="#26220E"/>
+<line x1="61.5" y1="2" x2="61.5" y2="0" stroke="#C8922A" stroke-width="1.4"/>
+<circle cx="61.5" cy="-0.3" r="1.5" fill="#C8922A"/>
+<!-- B2 -->
+<rect x="65" y="28" width="53" height="127" fill="#38281A"/><rect x="65" y="28" width="53" height="127" fill="url(#ab)" opacity="0.65"/><rect x="65" y="28" width="53" height="127" fill="url(#st)"/>
+<rect x="65" y="26" width="53" height="3" fill="#483820"/>
+<rect x="69" y="42" width="45" height="20" fill="#2C2416"/><rect x="69" y="42" width="45" height="20" fill="url(#gp)"/>
+<rect x="65" y="63" width="53" height="1.8" fill="#4A3820"/>
+<rect x="67" y="65" width="14" height="16" fill="#201810"/>
+<path d="M69,81 Q69,65 74,65 Q79,65 79,81 Z" fill="#060402"/>
+<rect x="69" y="65" width="10" height="16" fill="rgba(255,210,80,0.50)"/>
+<rect x="85" y="65" width="14" height="16" fill="#201810"/>
+<path d="M87,81 Q87,65 92,65 Q97,65 97,81 Z" fill="#060402"/>
+<rect x="87" y="65" width="10" height="16" fill="rgba(255,200,70,0.55)"/>
+<rect x="65" y="85" width="53" height="18" fill="#160C04"/>
+<rect x="67" y="87" width="15" height="14" fill="url(#ms)"/><rect x="67" y="87" width="15" height="14" fill="rgba(255,210,80,0.30)"/>
+<rect x="85" y="87" width="15" height="14" fill="url(#ms)"/><rect x="85" y="87" width="15" height="14" fill="rgba(255,200,70,0.38)"/>
+<rect x="103" y="87" width="13" height="14" fill="url(#ms)"/><rect x="103" y="87" width="13" height="14" fill="rgba(255,210,80,0.22)"/>
+<rect x="65" y="103" width="53" height="2" fill="#4A3820"/>
+<rect x="65" y="121" width="53" height="34" fill="#1C1008"/>
+<path d="M75,155 L75,140 Q75,122 91.5,120 Q108,122 108,140 L108,155 Z" fill="#060402"/>
+<rect x="78" y="135" width="27" height="20" fill="rgba(255,160,40,0.18)"/>
+<!-- B3 dome -->
+<rect x="118" y="36" width="54" height="119" fill="#3A2C18"/><rect x="118" y="36" width="54" height="119" fill="url(#ab)" opacity="0.62"/><rect x="118" y="36" width="54" height="119" fill="url(#st)"/>
+<rect x="130" y="22" width="30" height="16" fill="#2C2412"/>
+<path d="M127,22 A 18,16 0 1 0 163,22 Z" fill="#28200E"/>
+<line x1="145" y1="6" x2="145" y2="2" stroke="#C8922A" stroke-width="1.6"/>
+<circle cx="145" cy="1" r="1.9" fill="#C8922A"/>
+<circle cx="145" cy="1" r="4" fill="rgba(200,146,42,0.3)"/>
+<rect x="121" y="37" width="48" height="19" fill="#2C2416"/><rect x="121" y="37" width="48" height="19" fill="url(#gp)"/>
+<rect x="118" y="57" width="54" height="1.8" fill="#4A3820"/>
+<rect x="120" y="59" width="14" height="17" fill="#201A10"/>
+<path d="M122,76 Q122,59 127,59 Q132,59 132,76 Z" fill="#060402"/>
+<rect x="122" y="59" width="10" height="17" fill="rgba(255,210,80,0.55)"/>
+<rect x="138" y="59" width="16" height="17" fill="#201A10"/>
+<path d="M140,76 Q140,59 146,59 Q152,59 152,76 Z" fill="#060402"/>
+<rect x="140" y="59" width="12" height="17" fill="rgba(255,200,90,0.60)"/>
+<rect x="118" y="77" width="54" height="1.8" fill="#4A3820"/>
+<rect x="118" y="79" width="54" height="17" fill="#160C04"/>
+<rect x="120" y="81" width="17" height="13" fill="url(#ms)"/><rect x="120" y="81" width="17" height="13" fill="rgba(255,210,80,0.32)"/>
+<rect x="141" y="81" width="17" height="13" fill="url(#ms)"/><rect x="141" y="81" width="17" height="13" fill="rgba(255,210,80,0.28)"/>
+<rect x="118" y="118" width="54" height="37" fill="#1E1209"/>
+<path d="M122,155 Q122,136 145,128 Q168,136 168,155 Z" fill="#060402"/>
+<rect x="128" y="133" width="34" height="22" fill="rgba(255,160,40,0.22)"/>
+<!-- B4 tower -->
+<rect x="172" y="12" width="24" height="143" fill="#342818"/><rect x="172" y="12" width="24" height="143" fill="url(#ab)" opacity="0.72"/>
+<path d="M171,16 A 13,13 0 1 0 197,16 Z" fill="#28200E"/>
+<line x1="184" y1="3" x2="184" y2="0" stroke="#C8922A" stroke-width="1.5"/>
+<circle cx="184" cy="0" r="1.7" fill="#C8922A"/>
+<circle cx="184" cy="0" r="3.5" fill="rgba(200,146,42,0.32)"/>
+<rect x="176" y="30" width="16" height="48" fill="#1C1A0C"/>
+<path d="M178,78 Q178,30 184,28 Q190,30 190,78 Z" fill="#0C0906"/>
+<rect x="178" y="33" width="12" height="34" fill="rgba(255,210,80,0.40)"/>
+<rect x="175" y="83" width="10" height="14" fill="#1E1810"/>
+<rect x="177" y="83" width="6" height="14" fill="rgba(255,200,70,0.52)"/>
+<rect x="187" y="83" width="9" height="14" fill="#1E1810"/>
+<rect x="189" y="83" width="5" height="14" fill="rgba(255,190,60,0.48)"/>
+<rect x="172" y="118" width="24" height="37" fill="#1C1008"/>
+<path d="M174,155 Q174,134 179,127 Q184,134 184,155 Z" fill="#0A0604"/>
+<rect x="174" y="138" width="10" height="17" fill="rgba(255,160,40,0.25)"/>
+<path d="M184,155 Q184,134 189,127 Q194,134 194,155 Z" fill="#0A0604"/>
+<rect x="184" y="138" width="10" height="17" fill="rgba(255,160,40,0.20)"/>
+<!-- B5 grand -->
+<rect x="196" y="32" width="69" height="123" fill="#3C2E1C"/><rect x="196" y="32" width="69" height="123" fill="url(#ab)" opacity="0.60"/><rect x="196" y="32" width="69" height="123" fill="url(#st)"/>
+<rect x="202" y="44" width="61" height="20" fill="#2C2616"/><rect x="202" y="44" width="61" height="20" fill="url(#gp)"/>
+<rect x="196" y="65" width="69" height="1.8" fill="#4A3820"/>
+<rect x="199" y="67" width="14" height="18" fill="#201A10"/>
+<path d="M201,85 Q201,67 206,67 Q211,67 211,85 Z" fill="#060402"/>
+<rect x="201" y="67" width="10" height="18" fill="rgba(255,210,80,0.50)"/>
+<rect x="217" y="67" width="16" height="18" fill="#201A10"/>
+<path d="M219,85 Q219,67 225,67 Q231,67 231,85 Z" fill="#060402"/>
+<rect x="219" y="67" width="12" height="18" fill="rgba(255,200,90,0.55)"/>
+<rect x="235" y="67" width="16" height="18" fill="#201A10"/>
+<path d="M237,85 Q237,67 243,67 Q249,67 249,85 Z" fill="#060402"/>
+<rect x="237" y="67" width="12" height="18" fill="rgba(255,210,80,0.42)"/>
+<rect x="250" y="67" width="14" height="18" fill="#201A10"/>
+<path d="M252,85 Q252,67 257,67 Q262,67 262,85 Z" fill="#060402"/>
+<rect x="252" y="67" width="10" height="18" fill="rgba(255,200,70,0.45)"/>
+<rect x="196" y="86" width="69" height="1.8" fill="#4A3820"/>
+<rect x="196" y="88" width="69" height="18" fill="#160C04"/>
+<rect x="199" y="90" width="18" height="14" fill="url(#ms)"/><rect x="199" y="90" width="18" height="14" fill="rgba(255,210,80,0.28)"/>
+<rect x="221" y="90" width="18" height="14" fill="url(#ms)"/><rect x="221" y="90" width="18" height="14" fill="rgba(255,210,80,0.33)"/>
+<rect x="243" y="90" width="18" height="14" fill="url(#ms)"/><rect x="243" y="90" width="18" height="14" fill="rgba(255,200,70,0.22)"/>
+<rect x="196" y="120" width="69" height="35" fill="#1E1008"/>
+<path d="M198,155 Q198,138 208.5,132 Q219,138 219,155 Z" fill="#060402"/>
+<rect x="200" y="138" width="18" height="17" fill="rgba(255,160,40,0.22)"/>
+<path d="M221,155 Q221,136 231.5,130 Q242,136 242,155 Z" fill="#060402"/>
+<rect x="224" y="136" width="17" height="19" fill="rgba(255,170,50,0.26)"/>
+<path d="M244,155 Q244,138 254.5,132 Q265,138 265,155 Z" fill="#060402"/>
+<rect x="246" y="138" width="18" height="17" fill="rgba(255,160,40,0.20)"/>
+<!-- B6 -->
+<rect x="265" y="44" width="31" height="111" fill="#362A18"/><rect x="265" y="44" width="31" height="111" fill="url(#ab)" opacity="0.65"/>
+<rect x="267" y="47" width="12" height="19" fill="#201A10"/>
+<rect x="269" y="47" width="8" height="19" fill="rgba(255,210,80,0.48)"/>
+<path d="M269,66 Q269,47 273,47 Q277,47 277,66 Z" fill="#060402"/>
+<rect x="281" y="47" width="11" height="19" fill="#201A10"/>
+<rect x="283" y="47" width="7" height="19" fill="rgba(255,200,70,0.42)"/>
+<path d="M283,66 Q283,47 286.5,47 Q290,47 290,66 Z" fill="#060402"/>
+<rect x="265" y="69" width="31" height="17" fill="#160C04"/>
+<rect x="267" y="71" width="12" height="13" fill="url(#ms)"/><rect x="267" y="71" width="12" height="13" fill="rgba(255,210,80,0.30)"/>
+<rect x="282" y="71" width="12" height="13" fill="url(#ms)"/><rect x="282" y="71" width="12" height="13" fill="rgba(255,200,70,0.28)"/>
+<rect x="265" y="108" width="31" height="47" fill="#1C1008"/>
+<path d="M267,155 Q267,134 280.5,127 Q294,134 294,155 Z" fill="#060402"/>
+<rect x="270" y="136" width="21" height="19" fill="rgba(255,160,40,0.22)"/>
+            </svg>
+          </div>
+          <!-- طبقة إضاءة ذهبية فوق المباني -->
+          <div class="splash-bld-glow"></div>
+          <!-- محتوى مركزي -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;position:relative;z-index:5">
+            <div class="splash-candle">🕯️</div>
+            <div class="splash-title">نور رمضان</div>
+            <div class="splash-sub">NOUR RAMADAN</div>
+            <div class="splash-bar"><div class="splash-bar-fill"></div></div>
+            <div style="font-size:0.55rem;color:var(--dim);margin-top:4px">جارٍ التحميل...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHONE 1b: SPLASH LIGHT -->
+  <div>
+    <div class="phone-label">شاشة التحميل — Light</div>
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="splash-bg splash-light" id="splash-light">
+          <div class="splash-stars" id="s1b"></div>
+          <div class="splash-moon" style="opacity:0.65"></div>
+          <!-- زينة في الـ light mode أيضاً -->
+          <div class="splash-rope" style="background:rgba(130,90,40,0.45)"></div>
+          <div class="splash-lanterns-row" id="sp-lan-light"></div>
+          <div class="splash-ornament-bar" style="color:rgba(130,85,20,0.5)">❋ ✦ ❋ ✦ ❋</div>
+          <div class="splash-geo-strip" style="background:repeating-linear-gradient(90deg,transparent 0,transparent 4px,rgba(140,90,20,0.3) 4px,rgba(140,90,20,0.3) 5px)"></div>
+          <!-- مباني light بألوان دافئة نهارية -->
+          <div class="splash-buildings">
+            <svg viewBox="0 0 296 160" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <pattern id="ab2" x="0" y="0" width="100" height="7" patternUnits="userSpaceOnUse"><rect width="100" height="3.5" fill="#C8A070"/><rect y="3.5" width="100" height="3.5" fill="#A07848"/></pattern>
+  <pattern id="ms2" x="0" y="0" width="5" height="5" patternUnits="userSpaceOnUse"><rect width="5" height="5" fill="#7A5030"/><line x1="0" y1="2.5" x2="5" y2="2.5" stroke="#5A3818" stroke-width="1.3"/><line x1="2.5" y1="0" x2="2.5" y2="5" stroke="#5A3818" stroke-width="1.3"/></pattern>
+  <pattern id="gp2" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse"><polygon points="5,0 10,5 5,10 0,5" fill="none" stroke="rgba(150,100,30,0.28)" stroke-width="0.6"/></pattern>
+  <radialGradient id="amb2" cx="50%" cy="20%" r="80%"><stop offset="0%" stop-color="rgba(220,180,90,0.25)"/><stop offset="100%" stop-color="rgba(200,160,70,0)"/></radialGradient>
+</defs>
+<rect x="0" y="0" width="296" height="160" fill="url(#amb2)"/>
+<rect x="0" y="152" width="296" height="8" fill="#D0A868"/>
+<rect x="0" y="48" width="58" height="107" fill="#D4A870"/><rect x="0" y="48" width="58" height="107" fill="url(#ab2)" opacity="0.55"/>
+<rect x="4" y="50" width="20" height="19" fill="#8C5C30"/><rect x="6" y="50" width="16" height="19" fill="rgba(255,230,140,0.7)"/>
+<rect x="34" y="50" width="20" height="19" fill="#8C5C30"/><rect x="36" y="50" width="16" height="19" fill="rgba(255,220,130,0.65)"/>
+<rect x="0" y="72" width="58" height="19" fill="#844C28"/><rect x="2" y="74" width="16" height="15" fill="url(#ms2)"/><rect x="20" y="74" width="16" height="15" fill="url(#ms2)"/>
+<rect x="58" y="14" width="7" height="50" fill="#B08040"/><polygon points="57,14 61.5,2 66,14" fill="#946830"/>
+<line x1="61.5" y1="2" x2="61.5" y2="0" stroke="#C8922A" stroke-width="1.4"/><circle cx="61.5" cy="-0.3" r="1.5" fill="#C8922A"/>
+<rect x="65" y="28" width="53" height="127" fill="#CC9868"/><rect x="65" y="28" width="53" height="127" fill="url(#ab2)" opacity="0.55"/>
+<rect x="69" y="42" width="45" height="20" fill="url(#gp2)"/>
+<rect x="67" y="65" width="14" height="16" fill="#8C5C30"/><rect x="69" y="65" width="10" height="16" fill="rgba(255,230,140,0.75)"/>
+<rect x="85" y="65" width="14" height="16" fill="#8C5C30"/><rect x="87" y="65" width="10" height="16" fill="rgba(255,220,130,0.70)"/>
+<rect x="65" y="85" width="53" height="18" fill="#6C3E18"/><rect x="67" y="87" width="15" height="14" fill="url(#ms2)"/><rect x="85" y="87" width="15" height="14" fill="url(#ms2)"/>
+<rect x="65" y="121" width="53" height="34" fill="#B07840"/>
+<path d="M75,155 L75,140 Q75,122 91.5,120 Q108,122 108,140 L108,155 Z" fill="#743E18"/>
+<rect x="118" y="36" width="54" height="119" fill="#D49A70"/><rect x="118" y="36" width="54" height="119" fill="url(#ab2)" opacity="0.52"/>
+<rect x="130" y="22" width="30" height="16" fill="#B87848"/><path d="M127,22 A 18,16 0 1 0 163,22 Z" fill="#A46838"/>
+<line x1="145" y1="6" x2="145" y2="2" stroke="#C8922A" stroke-width="1.6"/><circle cx="145" cy="1" r="1.9" fill="#C8922A"/>
+<rect x="121" y="37" width="48" height="19" fill="url(#gp2)"/>
+<rect x="120" y="59" width="14" height="17" fill="#8C5C30"/><rect x="122" y="59" width="10" height="17" fill="rgba(255,230,140,0.72)"/>
+<rect x="138" y="59" width="16" height="17" fill="#8C5C30"/><rect x="140" y="59" width="12" height="17" fill="rgba(255,230,140,0.78)"/>
+<rect x="118" y="79" width="54" height="17" fill="#6C3E18"/><rect x="120" y="81" width="17" height="13" fill="url(#ms2)"/>
+<path d="M122,155 Q122,136 145,128 Q168,136 168,155 Z" fill="#743E18"/>
+<rect x="172" y="12" width="24" height="143" fill="#C49068"/>
+<path d="M171,16 A 13,13 0 1 0 197,16 Z" fill="#A87040"/>
+<line x1="184" y1="3" x2="184" y2="0" stroke="#C8922A" stroke-width="1.5"/><circle cx="184" cy="0" r="1.7" fill="#C8922A"/>
+<rect x="196" y="32" width="69" height="123" fill="#D8A278"/>
+<rect x="196" y="32" width="69" height="123" fill="url(#ab2)" opacity="0.55"/>
+<rect x="202" y="44" width="61" height="20" fill="url(#gp2)"/>
+<rect x="199" y="67" width="14" height="18" fill="#8C5C30"/><rect x="201" y="67" width="10" height="18" fill="rgba(255,230,140,0.72)"/>
+<rect x="217" y="67" width="16" height="18" fill="#8C5C30"/><rect x="219" y="67" width="12" height="18" fill="rgba(255,230,140,0.75)"/>
+<rect x="235" y="67" width="16" height="18" fill="#8C5C30"/><rect x="250" y="67" width="14" height="18" fill="#8C5C30"/>
+<rect x="196" y="88" width="69" height="18" fill="#6C3E18"/><rect x="199" y="90" width="18" height="14" fill="url(#ms2)"/>
+<rect x="196" y="120" width="69" height="35" fill="#B47840"/>
+<path d="M198,155 Q198,138 208.5,132 Q219,138 219,155 Z" fill="#743E18"/>
+<path d="M221,155 Q221,136 231.5,130 Q242,136 242,155 Z" fill="#743E18"/>
+<path d="M244,155 Q244,138 254.5,132 Q265,138 265,155 Z" fill="#743E18"/>
+<rect x="265" y="44" width="31" height="111" fill="#CC9068"/>
+<rect x="267" y="47" width="12" height="19" fill="#8C5C30"/><rect x="269" y="47" width="8" height="19" fill="rgba(255,230,140,0.68)"/>
+<rect x="281" y="47" width="11" height="19" fill="#8C5C30"/>
+<rect x="265" y="69" width="31" height="17" fill="#6C3E18"/><rect x="267" y="71" width="12" height="13" fill="url(#ms2)"/>
+<path d="M267,155 Q267,134 280.5,127 Q294,134 294,155 Z" fill="#743E18"/>
+            </svg>
+          </div>
+          <div class="splash-bld-glow" style="background:linear-gradient(180deg,transparent 0%,rgba(200,150,60,0.08) 40%,rgba(180,120,40,0.14) 70%,rgba(160,100,20,0.20) 100%)"></div>
+          <!-- محتوى مركزي light -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;position:relative;z-index:5">
+            <div class="splash-candle" style="filter:drop-shadow(0 0 10px rgba(200,120,20,0.55))">🕯️</div>
+            <div class="splash-title">نور رمضان</div>
+            <div class="splash-sub">NOUR RAMADAN</div>
+            <div class="splash-bar" style="background:rgba(150,100,30,0.2)"><div class="splash-bar-fill"></div></div>
+            <div style="font-size:0.55rem;color:#8B7040;margin-top:4px">جارٍ التحميل...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHONE 2: HOME -->
+  <div>
+    <div class="phone-label">الشاشة الرئيسية</div>
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="home-bg">
+          <div class="home-lanterns">
+            <div class="home-lantern" style="--sw:3s;--hs:15px;--lw:14px;--lh:24px;--lc:rgba(200,60,0,0.9);--lc2:rgba(200,60,0,0.3)"><div class="hl-string"></div><div class="hl-body" style="background:rgba(200,60,0,0.85)"></div></div>
+            <div class="home-lantern" style="--sw:4s;animation-delay:0.5s;--hs:20px;--lw:16px;--lh:28px;--lc:rgba(0,80,200,0.9);--lc2:rgba(0,80,200,0.3)"><div class="hl-string" style="height:20px"></div><div class="hl-body" style="background:rgba(0,80,200,0.85)"></div></div>
+            <div class="home-lantern" style="--sw:3.5s;animation-delay:1s;--hs:12px;--lw:18px;--lh:30px;--lc:rgba(0,140,60,0.9);--lc2:rgba(0,140,60,0.3)"><div class="hl-string" style="height:12px"></div><div class="hl-body" style="background:rgba(0,140,60,0.85)"></div></div>
+            <div class="home-lantern" style="--sw:4.5s;animation-delay:0.8s;--hs:18px;--lw:14px;--lh:24px;--lc:rgba(180,100,0,0.9);--lc2:rgba(180,100,0,0.3)"><div class="hl-string" style="height:18px"></div><div class="hl-body" style="background:rgba(180,100,0,0.85)"></div></div>
+            <div class="home-lantern" style="--sw:3.2s;animation-delay:1.5s;--hs:10px;--lw:12px;--lh:22px;--lc:rgba(150,0,150,0.9);--lc2:rgba(150,0,150,0.3)"><div class="hl-string" style="height:10px"></div><div class="hl-body" style="background:rgba(150,0,150,0.85)"></div></div>
+          </div>
+          <div class="home-scroll">
+            <div class="status-bar" style="padding:0 0 10px"><span style="font-size:0.55rem">٩:٤١ م</span><span style="font-size:0.55rem">🔋 📶</span></div>
+            <div class="home-header">
+              <div><div class="home-title-main">🌙 نور رمضان</div><div class="home-subtitle">القاهرة ● ٢٩ رمضان ١٤٤٦</div></div>
+              <div class="home-menu">☰</div>
+            </div>
+            <div class="ornament">❋ ✦ ❋</div>
+            <div class="geo-border-sm"></div>
+            <div class="gold-card">
+              <div class="card-label">آية اليوم</div>
+              <div class="verse-text">شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ</div>
+              <div class="verse-ref">البقرة — ١٨٥</div>
+            </div>
+            <div class="gold-card">
+              <div class="card-label">أوقات الصلاة</div>
+              <div class="prayer-row"><span class="pr-name">الفجر</span><span class="pr-time">٤:١٢ ص</span></div>
+              <div class="prayer-row"><span class="pr-name">الشروق</span><span class="pr-time">٥:٤٠ ص</span></div>
+              <div class="prayer-row active"><span class="pr-name">الظهر</span><span class="pr-time">١٢:١٥ م</span><span class="pr-badge">الآن</span></div>
+              <div class="prayer-row"><span class="pr-name">العصر</span><span class="pr-time">٣:٤٥ م</span></div>
+              <div class="prayer-row"><span class="pr-name">المغرب</span><span class="pr-time">٦:٢٨ م</span></div>
+              <div class="prayer-row"><span class="pr-name">العشاء</span><span class="pr-time">٧:٤٥ م</span></div>
+              <div class="countdown-block"><div class="ct-label">⏳ العصر بعد</div><div class="ct-time">٣:٢٩:٤٥</div></div>
+            </div>
+            <div class="ornament">❋ ✦ ❋</div>
+            <div class="features-grid">
+              <div class="feat-card"><span class="feat-icon">📖</span><div class="feat-name">القرآن الكريم</div><div class="feat-desc">تصفح كامل المصحف</div></div>
+              <div class="feat-card"><span class="feat-icon">🤲</span><div class="feat-name">الأدعية</div><div class="feat-desc">مئات الأدعية</div></div>
+              <div class="feat-card"><span class="feat-icon">🕌</span><div class="feat-name">أوقات الصلاة</div><div class="feat-desc">تذكير تلقائي</div></div>
+              <div class="feat-card"><span class="feat-icon">🧭</span><div class="feat-name">القبلة</div><div class="feat-desc">بدقة عالية</div></div>
+              <div class="feat-card"><span class="feat-icon">📿</span><div class="feat-name">التسبيح</div><div class="feat-desc">سبحة تفاعلية</div></div>
+              <div class="feat-card"><span class="feat-icon">🌙</span><div class="feat-name">ليلة القدر</div><div class="feat-desc">العشر الأواخر</div></div>
+              <div class="feat-card"><span class="feat-icon">🌿</span><div class="feat-name">الأذكار</div><div class="feat-desc">صباحاً ومساءً</div></div>
+              <div class="feat-card"><span class="feat-icon">⭐</span><div class="feat-name">تقدمي</div><div class="feat-desc">تابع مستواك</div></div>
+            </div>
+          </div>
+          <div class="nav-bar">
+            <div class="nav-item active"><div class="nav-icon">🏠</div><div class="nav-label">الرئيسية</div></div>
+            <div class="nav-item"><div class="nav-icon">📖</div><div class="nav-label">القرآن</div></div>
+            <div class="nav-item"><div class="nav-icon">🤲</div><div class="nav-label">أدعية</div></div>
+            <div class="nav-item"><div class="nav-icon">📿</div><div class="nav-label">تسبيح</div></div>
+            <div class="nav-item"><div class="nav-icon">👤</div><div class="nav-label">تقدمي</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHONE 3: QURAN LIST -->
+  <div>
+    <div class="phone-label">القرآن الكريم</div>
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="quran-bg">
+          <div class="status-bar"><span>٩:٤١ م</span><span>🔋 📶</span></div>
+          <div class="screen-header">
+            <div class="sh-back">‹ القرآن</div>
+            <div class="sh-title">القرآن الكريم</div>
+            <div class="sh-icon">🔍</div>
+          </div>
+          <div class="sheikh-bar"><span>🎙️</span><span class="sheikh-name">الشيخ المنشاوي</span><span class="sheikh-change">تغيير</span></div>
+          <div class="tab-bar">
+            <div class="tab">أجزاء</div>
+            <div class="tab active">سور</div>
+            <div class="tab">بحث</div>
+          </div>
+          <div class="surah-list">
+            <div class="surah-item"><div class="surah-num">١</div><div class="surah-info"><div class="surah-name-ar">الفاتحة</div><div class="surah-meta">مكية • ٧ آيات</div></div><div class="surah-play">▶</div></div>
+            <div class="surah-item" style="background:rgba(200,146,42,0.05);border-radius:8px;margin:0 -4px;padding:10px 4px">
+              <div class="surah-num" style="background:rgba(200,146,42,0.25);border-color:var(--gold)">٢</div>
+              <div class="surah-info"><div class="surah-name-ar" style="color:var(--gold-l)">البقرة</div><div class="surah-meta">مدنية • ٢٨٦ آية</div></div>
+              <div class="surah-play" style="color:var(--gold-l)">⏸</div>
+            </div>
+            <div class="surah-item"><div class="surah-num">٣</div><div class="surah-info"><div class="surah-name-ar">آل عمران</div><div class="surah-meta">مدنية • ٢٠٠ آية</div></div><div class="surah-play">▶</div></div>
+            <div class="surah-item"><div class="surah-num">٤</div><div class="surah-info"><div class="surah-name-ar">النساء</div><div class="surah-meta">مدنية • ١٧٦ آية</div></div><div class="surah-play">▶</div></div>
+            <div class="surah-item"><div class="surah-num">٥</div><div class="surah-info"><div class="surah-name-ar">المائدة</div><div class="surah-meta">مدنية • ١٢٠ آية</div></div><div class="surah-play">▶</div></div>
+            <div class="surah-item"><div class="surah-num">٦</div><div class="surah-info"><div class="surah-name-ar">الأنعام</div><div class="surah-meta">مكية • ١٦٥ آية</div></div><div class="surah-play">▶</div></div>
+          </div>
+          <div class="audio-player" style="position:relative"><span>🎙️</span><div class="ap-name">المنشاوي • سورة البقرة</div><div class="ap-controls">⏮ ⏸ ⏭</div><div class="ap-progress"><div class="ap-fill"></div></div></div>
+          <div class="nav-bar">
+            <div class="nav-item"><div class="nav-icon">🏠</div><div class="nav-label">الرئيسية</div></div>
+            <div class="nav-item active"><div class="nav-icon">📖</div><div class="nav-label">القرآن</div></div>
+            <div class="nav-item"><div class="nav-icon">🤲</div><div class="nav-label">أدعية</div></div>
+            <div class="nav-item"><div class="nav-icon">📿</div><div class="nav-label">تسبيح</div></div>
+            <div class="nav-item"><div class="nav-icon">👤</div><div class="nav-label">تقدمي</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHONE 4: QURAN READER -->
+  <div>
+    <div class="phone-label">قارئ القرآن</div>
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="reader-bg">
+          <div class="status-bar"><span>٩:٤١ م</span><span>🔋 📶</span></div>
+          <div class="screen-header">
+            <div class="sh-back">‹</div>
+            <div class="sh-title">سورة البقرة</div>
+            <div style="display:flex;gap:8px;font-size:0.8rem;color:var(--gold)">🔖 ⚙️</div>
+          </div>
+          <div class="reader-content">
+            <div class="bismillah">بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ</div>
+            <div class="verse-block"><div class="verse-arabic"><span class="verse-num">١</span>الٓمٓ</div></div>
+            <div class="verse-block playing"><div class="verse-arabic highlighted"><span class="verse-num" style="background:rgba(200,146,42,0.3);color:#FFD97D">٢</span>ذَٰلِكَ ٱلۡكِتَٰبُ لَا رَيۡبَ فِيهِۛ هُدًى لِّلۡمُتَّقِينَ</div></div>
+            <div class="verse-block"><div class="verse-arabic"><span class="verse-num">٣</span>ٱلَّذِينَ يُؤۡمِنُونَ بِٱلۡغَيۡبِ وَيُقِيمُونَ ٱلصَّلَوٰةَ</div></div>
+            <div class="verse-block"><div class="verse-arabic"><span class="verse-num">٤</span>وَٱلَّذِينَ يُؤۡمِنُونَ بِمَآ أُنزِلَ إِلَيۡكَ</div></div>
+            <div class="verse-block"><div class="verse-arabic"><span class="verse-num">٥</span>أُوْلَٰٓئِكَ عَلَىٰ هُدًى مِّن رَّبِّهِمۡ</div></div>
+          </div>
+          <div class="reader-player">
+            <div class="rp-surah">🎙️ المنشاوي • سورة البقرة • الآية ٢</div>
+            <div class="rp-controls"><span class="rp-btn">⏮</span><span class="rp-btn">⏭</span><div class="rp-play">⏸</div><span class="rp-btn">🔁</span><span class="rp-btn">🔊</span></div>
+            <div class="rp-track"><div class="rp-fill"></div><div class="rp-dot"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /grid 1 -->
+
+<div class="geo-border"></div>
+<div class="ornament-big">❋ ✦ ❋ ✦ ❋</div>
+
+<div class="section-divider">
+  <div class="section-divider-text">✦ الأدعية والعبادات ✦</div>
+  <div class="section-divider-line"></div>
+</div>
+
+<div class="phones-grid">
+
+  <!-- PHONE 5: DUA - أدعية مختارة (الأزرار في الأسفل) -->
+  <div>
+    <div class="phone-label">الأدعية المختارة</div>
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="dua-bg">
+          <div class="status-bar"><span>٩:٤١ م</span><span>🔋 📶</span></div>
+          <div class="screen-header"><div class="sh-back">‹</div><div class="sh-title">🤲 أدعية مختارة</div><div></div></div>
+          <div class="dua-scroll">
+            <div class="dua-categories">
+              <div class="cat-pill active">الكل</div>
+              <div class="cat-pill">رمضانية</div>
+              <div class="cat-pill">الإفطار</div>
+              <div class="cat-pill">السحور</div>
+              <div class="cat-pill">ليلة القدر</div>
+              <div class="cat-pill">الصباح</div>
+              <div class="cat-pill">المساء</div>
+              <div class="cat-pill">الرزق</div>
+              <div class="cat-pill">الشفاء</div>
+            </div>
+            <!-- بطاقة دعاء: النص أولاً، الأزرار في الأسفل -->
+            <div class="dua-card">
+              <div class="dua-arabic">اللَّهُمَّ رَبَّكَ صُمْتُ، وَعَلَى رِزْقِكَ أَفْطَرْتُ</div>
+              <div class="dua-footer">
+                <div class="dua-source">دعاء الإفطار — حديث شريف</div>
+                <div class="dua-actions"><div class="dua-btn">🔖</div><div class="dua-btn">📋</div><div class="dua-btn">🔊</div></div>
+              </div>
+            </div>
+            <div class="dua-card">
+              <div class="dua-arabic">اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي</div>
+              <div class="dua-footer">
+                <div class="dua-source">دعاء ليلة القدر — رواه الترمذي</div>
+                <div class="dua-actions"><div class="dua-btn">🔖</div><div class="dua-btn">📋</div><div class="dua-btn">🔊</div></div>
+              </div>
+            </div>
+            <div class="dua-card">
+              <div class="dua-arabic">اللَّهُمَّ بَارِكْ لَنَا فِي رَجَبَ وَشَعْبَانَ وَبَلِّغْنَا رَمَضَانَ</div>
+              <div class="dua-footer">
+                <div class="dua-source">دعاء استقبال رمضان — حديث شريف</div>
+                <div class="dua-actions"><div class="dua-btn">🔖</div><div class="dua-btn">📋</div><div class="dua-btn">🔊</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="nav-bar">
+            <div class="nav-item"><div class="nav-icon">🏠</div><div class="nav-label">الرئيسية</div></div>
+            <div class="nav-item"><div class="nav-icon">📖</div><div class="nav-label">القرآن</div></div>
+            <div class="nav-item active"><div class="nav-icon">🤲</div><div class="nav-label">أدعية</div></div>
+            <div class="nav-item"><div class="nav-icon">📿</div><div class="nav-label">تسبيح</div></div>
+            <div class="nav-item"><div class="nav-icon">👤</div><div class="nav-label">تقدمي</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHONE 5b: ATHKAR - شاشة الأذكار الكاملة -->
+  <div>
+    <div class="phone-label">الأذكار</div>
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="athkar-bg">
+          <div class="status-bar"><span>٩:٤١ م</span><span>🔋 📶</span></div>
+          <div class="screen-header"><div class="sh-back">‹</div><div class="sh-title">🌿 الأذكار</div><div></div></div>
+          <!-- تبويبات الأذكار -->
+          <div class="athkar-tabs-bar">
+            <div class="ath-tab active">الصباح</div>
+            <div class="ath-tab">المساء</div>
+            <div class="ath-tab">النوم</div>
+            <div class="ath-tab">الاستيقاظ</div>
+            <div class="ath-tab">بعد الصلاة</div>
+            <div class="ath-tab">الأكل</div>
+            <div class="ath-tab">السفر</div>
+            <div class="ath-tab">متنوعة</div>
+          </div>
+          <div class="athkar-scroll">
+            <!-- أذكار الصباح -->
+            <div class="ath-section-label">🌅 أذكار الصباح</div>
+            <div class="ath-card featured">
+              <div class="ath-text">أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ</div>
+              <div class="ath-footer">
+                <div class="ath-source">صحيح مسلم</div>
+                <div class="ath-count">× ١</div>
+              </div>
+              <div class="ath-prog"><div class="ath-prog-fill" style="width:100%"></div></div>
+              <div class="ath-btns"><div class="ath-btn">🔖</div><div class="ath-btn">📋</div><div class="ath-btn">🔊</div></div>
+            </div>
+            <div class="ath-card">
+              <div class="ath-text">اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ وَإِلَيْكَ النُّشُورُ</div>
+              <div class="ath-footer">
+                <div class="ath-source">الترمذي</div>
+                <div class="ath-count">× ١</div>
+              </div>
+              <div class="ath-prog"><div class="ath-prog-fill" style="width:0%"></div></div>
+              <div class="ath-btns"><div class="ath-btn">🔖</div><div class="ath-btn">📋</div><div class="ath-btn">🔊</div></div>
+            </div>
+            <!-- أذكار المساء -->
+            <div class="ath-section-label">🌙 أذكار المساء</div>
+            <div class="ath-card featured">
+              <div class="ath-text">أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ</div>
+              <div class="ath-footer">
+                <div class="ath-source">صحيح مسلم</div>
+                <div class="ath-count">× ١</div>
+              </div>
+              <div class="ath-prog"><div class="ath-prog-fill" style="width:65%"></div></div>
+              <div class="ath-btns"><div class="ath-btn">🔖</div><div class="ath-btn">📋</div><div class="ath-btn">🔊</div></div>
+            </div>
+            <!-- أذكار متنوعة -->
+            <div class="ath-section-label">📿 أذكار متنوعة</div>
+            <div class="ath-card">
+              <div class="ath-text">سُبْحَانَ اللَّهِ وَبِحَمْدِهِ</div>
+              <div class="ath-footer">
+                <div class="ath-source">البخاري ومسلم</div>
+                <div class="ath-count">× ١٠٠</div>
+              </div>
+              <div class="ath-prog"><div class="ath-prog-fill" style="width:33%"></div></div>
+              <div class="ath-btns"><div class="ath-btn">🔖</div><div class="ath-btn">📋</div><div class="ath-btn">🔊</div></div>
+            </div>
+          </div>
+          <div class="nav-bar">
+            <div class="nav-item"><div class="nav-icon">🏠</div><div class="nav-label">الرئيسية</div></div>
+            <div class="nav-item"><div class="nav-icon">📖</div><div class="nav-label">القرآن</div></div>
+            <div class="nav-item active"><div class="nav-icon">🌿</div><div class="nav-label">أذكار</div></div>
+            <div class="nav-item"><div class="nav-icon">📿</div><div class="nav-label">تسبيح</div></div>
+            <div class="nav-item"><div class="nav-icon">👤</div><div class="nav-label">تقدمي</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHONE 6: TASBIH -->
+  <div>
+    <div class="phone-label">السبحة الإلكترونية</div>
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="tasbih-bg">
+          <div class="status-bar"><span>٩:٤١ م</span><span>🔋 📶</span></div>
+          <div class="screen-header"><div class="sh-back">‹</div><div class="sh-title">التسبيح</div><div class="sh-icon">↺</div></div>
+          <div class="tasbih-body">
+            <div class="ornament">❋ ✦ ❋</div>
+            <div class="tasbih-types">
+              <div class="t-type active">سبحان الله</div>
+              <div class="t-type">الحمد لله</div>
+              <div class="t-type">الله أكبر</div>
+            </div>
+            <div class="tasbih-label">سبحان الله</div>
+            <div class="tasbih-counter">٣٣</div>
+            <div class="tasbih-target">الهدف: ٣٣ ✓</div>
+            <div class="tasbih-progress-bar"><div class="tp-fill" style="width:100%"></div></div>
+            <div class="tasbih-bead-btn">📿</div>
+            <div class="tasbih-note">اضغط للتسبيح • اهتزاز عند كل نقرة</div>
+            <div style="display:flex;gap:12px;margin-top:4px">
+              <div style="text-align:center"><div style="font-family:'Amiri',serif;font-size:1.2rem;color:var(--gold-l)">٩٩</div><div style="font-size:0.55rem;color:var(--dim)">اليوم</div></div>
+              <div style="width:1px;background:rgba(200,146,42,0.2)"></div>
+              <div style="text-align:center"><div style="font-family:'Amiri',serif;font-size:1.2rem;color:var(--gold-l)">٢١٠٠</div><div style="font-size:0.55rem;color:var(--dim)">رمضان</div></div>
+            </div>
+          </div>
+          <div class="nav-bar">
+            <div class="nav-item"><div class="nav-icon">🏠</div><div class="nav-label">الرئيسية</div></div>
+            <div class="nav-item"><div class="nav-icon">📖</div><div class="nav-label">القرآن</div></div>
+            <div class="nav-item"><div class="nav-icon">🤲</div><div class="nav-label">أدعية</div></div>
+            <div class="nav-item active"><div class="nav-icon">📿</div><div class="nav-label">تسبيح</div></div>
+            <div class="nav-item"><div class="nav-icon">👤</div><div class="nav-label">تقدمي</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHONE 7: QIBLA -->
+  <div>
+    <div class="phone-label">القبلة</div>
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="qibla-bg">
+          <div class="status-bar"><span>٩:٤١ م</span><span>🔋 📶</span></div>
+          <div class="screen-header"><div class="sh-back">‹</div><div class="sh-title">اتجاه القبلة</div><div></div></div>
+          <div class="qibla-body">
+            <div class="ornament">❋ ✦ ❋</div>
+            <div class="compass-outer">
+              <div class="kaaba-top">🕋</div>
+              <div class="compass-labels"><div class="cl cl-n">ش</div><div class="cl cl-s">ج</div><div class="cl cl-e">غ</div><div class="cl cl-w">ش.غ</div></div>
+              <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
+                <div class="compass-needle cn-north" style="transform:rotate(40deg);transform-origin:bottom center;position:absolute;bottom:50%;left:50%;margin-left:-1.5px"></div>
+              </div>
+              <div class="compass-center"></div>
+            </div>
+            <div class="qibla-degree">٦٥.٤°</div>
+            <div class="qibla-city">🗺️ اتجاه القبلة من القاهرة</div>
+            <div style="font-size:0.6rem;color:var(--dim);background:rgba(200,146,42,0.08);padding:8px 16px;border-radius:10px;border:1px solid rgba(200,146,42,0.15);text-align:center">وجّه جهازك ليتحرك معك 🧲</div>
+            <div class="ornament">❋ ✦ ❋</div>
+          </div>
+          <div class="nav-bar">
+            <div class="nav-item"><div class="nav-icon">🏠</div><div class="nav-label">الرئيسية</div></div>
+            <div class="nav-item"><div class="nav-icon">📖</div><div class="nav-label">القرآن</div></div>
+            <div class="nav-item active"><div class="nav-icon">🧭</div><div class="nav-label">القبلة</div></div>
+            <div class="nav-item"><div class="nav-icon">📿</div><div class="nav-label">تسبيح</div></div>
+            <div class="nav-item"><div class="nav-icon">👤</div><div class="nav-label">تقدمي</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHONE 8: SETTINGS -->
+  <div>
+    <div class="phone-label">إعدادات الأذان والمشايخ</div>
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="settings-bg">
+          <div class="status-bar"><span>٩:٤١ م</span><span>🔋 📶</span></div>
+          <div class="screen-header"><div class="sh-back">‹</div><div class="sh-title">إعدادات الصلاة</div><div></div></div>
+          <div class="settings-scroll">
+            <div class="settings-title">التنبيهات</div>
+            <div class="setting-row"><div class="setting-left"><span class="setting-icon">🔔</span><span class="setting-name">تنبيه أوقات الصلاة</span></div><div class="toggle"></div></div>
+            <div class="setting-row"><div class="setting-left"><span class="setting-icon">⏰</span><span class="setting-name">تذكير قبل الصلاة</span></div><div class="setting-value">١٥ دقيقة</div></div>
+            <div class="setting-row"><div class="setting-left"><span class="setting-icon">🌅</span><span class="setting-name">تنبيه السحور</span></div><div class="toggle"></div></div>
+            <div class="setting-row"><div class="setting-left"><span class="setting-icon">🌙</span><span class="setting-name">تنبيه الإفطار</span></div><div class="toggle"></div></div>
+            <div class="settings-title">صوت الأذان</div>
+            <div class="setting-row"><div class="setting-left"><span class="setting-icon">🕌</span><span class="setting-name">أذان مكة المكرمة</span></div><div style="color:var(--gold);font-size:0.65rem">● محدد</div></div>
+            <div class="setting-row"><div class="setting-left"><span class="setting-icon">🕌</span><span class="setting-name">أذان المدينة</span></div><div style="color:var(--dim);font-size:0.65rem">○</div></div>
+            <div class="setting-row"><div class="setting-left"><span class="setting-icon">🎙️</span><span class="setting-name">مشاري راشد</span></div><div style="color:var(--dim);font-size:0.65rem">○</div></div>
+            <div class="settings-title">شيخ التلاوة</div>
+            <div class="sheikh-option selected"><div class="so-radio on"><div></div></div><div class="so-name">الشيخ المنشاوي</div><div class="so-play">▶</div></div>
+            <div class="sheikh-option"><div class="so-radio"></div><div class="so-name">الشيخ الحصري</div><div class="so-play">▶</div></div>
+            <div class="sheikh-option"><div class="so-radio"></div><div class="so-name">الشيخ عبد الباسط</div><div class="so-play">▶</div></div>
+            <div class="sheikh-option"><div class="so-radio"></div><div class="so-name">مشاري راشد العفاسي</div><div class="so-play">▶</div></div>
+            <div class="sheikh-option"><div class="so-radio"></div><div class="so-name">الشيخ السديس</div><div class="so-play">▶</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /grid 2 -->
+
+<div class="geo-border"></div>
+<div class="ornament-big">❋ ✦ ❋ ✦ ❋</div>
+
+<div class="section-divider">
+  <div class="section-divider-text">✦ التقدم والإحصائيات ✦</div>
+  <div class="section-divider-line"></div>
+</div>
+
+<div class="phones-grid">
+
+  <!-- PHONE 9: PROGRESS -->
+  <div>
+    <div class="phone-label">تقدمي في رمضان ⭐</div>
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="progress-bg">
+          <div class="status-bar"><span>٩:٤١ م</span><span>🔋 📶</span></div>
+          <div class="screen-header"><div class="sh-back">‹</div><div class="sh-title">⭐ تقدمي في رمضان</div><div></div></div>
+          <div class="progress-scroll">
+            <div class="ornament" style="margin-top:8px">❋ ✦ ❋</div>
+            <div class="progress-grid">
+              <div class="stat-card"><div class="stat-icon">📖</div><div class="stat-value">٣</div><div class="stat-label">ختمات القرآن</div></div>
+              <div class="stat-card"><div class="stat-icon">📿</div><div class="stat-value">٢١٠٠</div><div class="stat-label">تسبيحة</div></div>
+              <div class="stat-card"><div class="stat-icon">🤲</div><div class="stat-value">٨٤</div><div class="stat-label">دعاء مقروء</div></div>
+              <div class="stat-card"><div class="stat-icon">🕌</div><div class="stat-value">٢٦</div><div class="stat-label">صلاة في موعدها</div></div>
+              <div class="stat-card"><div class="stat-icon">🌙</div><div class="stat-value">٦</div><div class="stat-label">قيام ليل</div></div>
+              <div class="stat-card"><div class="stat-icon">🏆</div><div class="stat-value">٥</div><div class="stat-label">شارة نجاح</div></div>
+            </div>
+            <div class="gold-section-title">🏅 شاراتي</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;padding:8px 0">
+              <div style="text-align:center;padding:10px;background:rgba(200,146,42,0.08);border-radius:12px;border:1px solid rgba(200,146,42,0.2);width:56px"><div style="font-size:1.4rem">🌟</div><div style="font-size:0.45rem;color:var(--gold);margin-top:3px">ختمة</div></div>
+              <div style="text-align:center;padding:10px;background:rgba(200,146,42,0.08);border-radius:12px;border:1px solid rgba(200,146,42,0.2);width:56px"><div style="font-size:1.4rem">🏅</div><div style="font-size:0.45rem;color:var(--gold);margin-top:3px">مداوم</div></div>
+              <div style="text-align:center;padding:10px;background:rgba(200,146,42,0.08);border-radius:12px;border:1px solid rgba(200,146,42,0.2);width:56px"><div style="font-size:1.4rem">🕌</div><div style="font-size:0.45rem;color:var(--gold);margin-top:3px">محافظ</div></div>
+              <div style="text-align:center;padding:10px;background:rgba(200,146,42,0.08);border-radius:12px;border:1px solid rgba(200,146,42,0.2);width:56px"><div style="font-size:1.4rem">🌙</div><div style="font-size:0.45rem;color:var(--gold);margin-top:3px">قائم</div></div>
+              <div style="text-align:center;padding:10px;background:rgba(34,26,64,0.6);border-radius:12px;border:1px solid rgba(200,146,42,0.1);width:56px;opacity:0.4"><div style="font-size:1.4rem">🔒</div><div style="font-size:0.45rem;color:var(--dim);margin-top:3px">قريباً</div></div>
+            </div>
+          </div>
+          <div class="nav-bar">
+            <div class="nav-item"><div class="nav-icon">🏠</div><div class="nav-label">الرئيسية</div></div>
+            <div class="nav-item"><div class="nav-icon">📖</div><div class="nav-label">القرآن</div></div>
+            <div class="nav-item"><div class="nav-icon">🤲</div><div class="nav-label">أدعية</div></div>
+            <div class="nav-item"><div class="nav-icon">📿</div><div class="nav-label">تسبيح</div></div>
+            <div class="nav-item active"><div class="nav-icon">👤</div><div class="nav-label">تقدمي</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /grid 3 -->
+
+<div class="geo-border"></div>
+<div class="bottom-ornament">❋ ✦ يُتِمُّ نُورَهُ ✦ ❋</div>
+
+<script>
+// STARS PAGE BG
+const starsBg = document.getElementById('stars-bg');
+for (let i = 0; i < 130; i++) {
+  const s = document.createElement('div');
+  s.className = 'star-bg';
+  const size = Math.random() * 2.5 + 0.4;
+  s.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*65}%;width:${size}px;height:${size}px;--d:${2+Math.random()*4}s;opacity:${Math.random()*0.6+0.1};animation-delay:${Math.random()*5}s;`;
+  starsBg.appendChild(s);
+}
+
+// LANTERNS PAGE LEVEL
+const lp = document.getElementById('lanterns-page');
+const lcols = [
+  {body:'rgba(220,80,0,0.9)',lg:'rgba(255,100,0,0.8)',lg2:'rgba(255,50,0,0.3)'},
+  {body:'rgba(0,60,180,0.9)',lg:'rgba(0,100,255,0.7)',lg2:'rgba(0,50,200,0.3)'},
+  {body:'rgba(0,130,60,0.9)',lg:'rgba(0,200,80,0.7)',lg2:'rgba(0,150,60,0.3)'},
+  {body:'rgba(150,0,150,0.9)',lg:'rgba(200,0,200,0.7)',lg2:'rgba(150,0,150,0.3)'},
+  {body:'rgba(180,140,0,0.9)',lg:'rgba(255,200,0,0.8)',lg2:'rgba(200,150,0,0.3)'},
+];
+const lcount = Math.floor(window.innerWidth/85)+4;
+for (let i=0;i<lcount;i++) {
+  const c=lcols[i%lcols.length];
+  const sz=22+Math.random()*18;
+  const sl=18+Math.random()*38;
+  const w=document.createElement('div');
+  w.className='lantern-wrap-page';
+  w.style.cssText=`left:${(i/lcount)*100+(Math.random()*3-1.5)}%;--sw:${3+Math.random()*3}s;animation-delay:${Math.random()*3}s;`;
+  w.innerHTML=`<div class="lantern-string-page" style="height:${sl}px;"></div><div class="lantern-body-page" style="width:${sz}px;height:${sz*1.8}px;background:${c.body};--lg:${c.lg};--lg2:${c.lg2};--fl:${2+Math.random()*2}s;"><div class="lantern-top-page"></div><div class="lantern-bot-page"></div></div>`;
+  lp.appendChild(w);
+}
+
+// SPLASH LANTERNS — دالة لإنشاء فوانيس داخل الـ splash
+function buildSplashLanterns(containerId) {
+  const cont = document.getElementById(containerId);
+  if (!cont) return;
+  const spColors = [
+    {bg:'rgba(210,60,0,0.92)',sc:'rgba(255,90,0,0.85)',sc2:'rgba(255,40,0,0.35)'},
+    {bg:'rgba(0,50,180,0.92)',sc:'rgba(0,90,255,0.75)',sc2:'rgba(0,40,200,0.30)'},
+    {bg:'rgba(0,120,50,0.92)',sc:'rgba(0,190,70,0.75)',sc2:'rgba(0,140,50,0.30)'},
+    {bg:'rgba(160,140,0,0.92)',sc:'rgba(240,200,0,0.85)',sc2:'rgba(200,160,0,0.35)'},
+    {bg:'rgba(140,0,140,0.92)',sc:'rgba(200,0,200,0.75)',sc2:'rgba(160,0,160,0.30)'},
+  ];
+  const count = 8;
+  for (let i = 0; i < count; i++) {
+    const c = spColors[i % spColors.length];
+    const sw = 9 + Math.random() * 5;
+    const sh = 15 + Math.random() * 5;
+    const strH = 12 + Math.random() * 18;
+    const wrap = document.createElement('div');
+    wrap.className = 'sp-lan-wrap';
+    wrap.style.cssText = `--spSw:${2.5+Math.random()*2}s;animation-delay:${Math.random()*2}s;`;
+    wrap.innerHTML = `
+      <div class="sp-lan-string" style="height:${strH}px"></div>
+      <div class="sp-lan-body" style="width:${sw}px;height:${sh}px;background:${c.bg};--spC:${c.sc};--spC2:${c.sc2};--spF:${1.5+Math.random()*2}s">
+        <div class="sp-lan-top"></div><div class="sp-lan-bot"></div>
+      </div>`;
+    cont.appendChild(wrap);
+  }
+}
+buildSplashLanterns('sp-lan-dark');
+buildSplashLanterns('sp-lan-light');
+
+// SPLASH STARS — dark
+const s1=document.getElementById('s1');
+if(s1){for(let i=0;i<60;i++){const st=document.createElement('div');st.className='splash-star';const sz=Math.random()*2+0.5;st.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*70}%;width:${sz}px;height:${sz}px;animation-delay:${Math.random()*4}s;animation-duration:${2+Math.random()*3}s;`;s1.appendChild(st);}}
+// SPLASH STARS — light (أخف)
+const s1b=document.getElementById('s1b');
+if(s1b){for(let i=0;i<20;i++){const st=document.createElement('div');st.className='splash-star';const sz=Math.random()*1.5+0.3;st.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*50}%;width:${sz}px;height:${sz}px;opacity:0.25;animation-delay:${Math.random()*4}s;animation-duration:${3+Math.random()*4}s;`;s1b.appendChild(st);}}
+
+// COUNTDOWN
+function updateAll(){
+  const now=new Date();const t=new Date();t.setHours(15,45,0,0);
+  const diff=Math.max(0,t-now);
+  const h=Math.floor(diff/3600000);const m=Math.floor((diff%3600000)/60000);const s=Math.floor((diff%60000)/1000);
+  const ar=n=>String(n).padStart(2,'0').split('').map(d=>'٠١٢٣٤٥٦٧٨٩'[d]||d).join('');
+  document.querySelectorAll('.ct-time').forEach(el=>el.textContent=`${ar(h)}:${ar(m)}:${ar(s)}`);
+}
+setInterval(updateAll,1000);updateAll();
+</script>
+</body>
+</html>

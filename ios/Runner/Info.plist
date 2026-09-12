@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>CFBundleDevelopmentRegion</key>
+		<string>$(DEVELOPMENT_LANGUAGE)</string>
+		<key>CFBundleDisplayName</key>
+		<string>Nour Ramadan</string>
+		<key>CFBundleExecutable</key>
+		<string>$(EXECUTABLE_NAME)</string>
+		<key>CFBundleIdentifier</key>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+		<key>CFBundleInfoDictionaryVersion</key>
+		<string>6.0</string>
+		<key>CFBundleName</key>
+		<string>nour_ramadan</string>
+		<key>CFBundlePackageType</key>
+		<string>APPL</string>
+		<key>CFBundleShortVersionString</key>
+		<string>$(FLUTTER_BUILD_NAME)</string>
+		<key>CFBundleSignature</key>
+		<string>????</string>
+		<key>CFBundleVersion</key>
+		<string>$(FLUTTER_BUILD_NUMBER)</string>
+		<key>LSRequiresIPhoneOS</key>
+		<true/>
+		<!-- ══════════════════════════════════════════════════════════
+	     الموقع الجغرافي — geolocator (إلزامي لـ App Store)
+	     NSLocationWhenInUseUsageDescription : مطلوب دائماً
+	     NSLocationAlwaysAndWhenInUseUsageDescription : مطلوب إذا احتجت background
+	     ══════════════════════════════════════════════════════════ -->
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>يستخدم تطبيق نور رمضان موقعك لحساب أوقات الصلاة الدقيقة واتجاه القبلة في مدينتك.</string>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>يستخدم تطبيق نور رمضان موقعك لحساب أوقات الصلاة الدقيقة واتجاه القبلة في مدينتك.</string>
+		<!-- ══════════════════════════════════════════════════════════
+	     الإشعارات والصوت في الخلفية
+	     audio            : تشغيل صوت الأذان في الخلفية
+	     remote-notification : استقبال إشعارات Firebase
+	     fetch            : تحديث البيانات في الخلفية
+	     processing       : مهام الخلفية الطويلة (BGTaskScheduler) ✅ إضافة
+	     ══════════════════════════════════════════════════════════ -->
+		<key>UIBackgroundModes</key>
+		<array>
+			<string>audio</string>
+			<string>fetch</string>
+			<string>remote-notification</string>
+			<string>processing</string>
+		</array>
+		<!-- ══════════════════════════════════════════════════════════
+	     المرحلة 7: معرّف BGAppRefreshTask المسموح — يجب أن يطابق
+	     iosWindowTopUpTaskIdentifier في AppDelegate.swift و
+	     IosNotificationWindow.backgroundTaskUniqueName في Dart حرفياً.
+	     Apple تتطلّب تعريف كل معرّف يُستخدَم مع BGTaskScheduler هنا
+	     مسبقاً وقت البناء.
+	     ══════════════════════════════════════════════════════════ -->
+		<key>BGTaskSchedulerPermittedIdentifiers</key>
+		<array>
+			<string>ios_notification_window_topup</string>
+		</array>
+		<!-- ══════════════════════════════════════════════════════════
+	     اتجاه القبلة — flutter_qiblah يحتاج CoreMotion
+	     ══════════════════════════════════════════════════════════ -->
+		<key>NSMotionUsageDescription</key>
+		<string>يستخدم تطبيق نور رمضان حساس الحركة لتحديد اتجاه القبلة بدقة.</string>
+		<!-- ══════════════════════════════════════════════════════════
+	     url_launcher — للسماح بفتح تطبيقات البريد الإلكتروني
+	     ══════════════════════════════════════════════════════════ -->
+		<key>LSApplicationQueriesSchemes</key>
+		<array>
+			<string>mailto</string>
+			<string>tel</string>
+			<string>sms</string>
+			<string>https</string>
+			<string>http</string>
+		</array>
+		<!-- ══════════════════════════════════════════════════════════
+	     واجهة المستخدم
+	     ══════════════════════════════════════════════════════════ -->
+		<key>UILaunchStoryboardName</key>
+		<string>LaunchScreen</string>
+		<key>UIMainStoryboardFile</key>
+		<string>Main</string>
+		<key>UISupportedInterfaceOrientations</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+		</array>
+		<key>UISupportedInterfaceOrientations~ipad</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationPortraitUpsideDown</string>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+		</array>
+		<key>CADisableMinimumFrameDurationOnPhone</key>
+		<true/>
+		<key>UIApplicationSupportsIndirectInputEvents</key>
+		<true/>
+		<key>UIStatusBarHidden</key>
+		<false/>
+	</dict>
+</plist>

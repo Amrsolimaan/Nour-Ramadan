@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نور رمضان — مواقيت الصلاة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --gold: #C8922A;
+  --gold-l: #F0C060;
+  --gold-g: #FFD97D;
+  --night: #08061A;
+  --night-m: #130F2A;
+  --ns: #1C1535;
+  --plaster: #E8D5B0;
+  --dim: #9B8A6E;
+  --gold-dim: #8B6520;
+}
+
+html, body {
+  min-height: 100%;
+  font-family: 'Tajawal', sans-serif;
+  color: var(--plaster);
+  overflow-x: hidden;
+  background: #03020F;
+}
+
+/* ═══ SKY ═══ */
+.sky-layer {
+  position: fixed; inset: 0;
+  background: linear-gradient(180deg, #03020F 0%, #0A0720 25%, #120E2E 55%, #1A132A 80%, #221A2E 100%);
+  z-index: 0;
+}
+.stars-bg { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+.star {
+  position: absolute; border-radius: 50%; background: white;
+  animation: twinkle var(--d, 3s) ease-in-out infinite alternate;
+}
+@keyframes twinkle {
+  0% { opacity: 0.1; transform: scale(1); }
+  100% { opacity: 0.9; transform: scale(1.5); }
+}
+
+/* ═══ MOON ═══ */
+.moon-page {
+  position: fixed; top: 40px; right: 80px;
+  width: 58px; height: 58px; z-index: 2;
+  animation: moonFloat 8s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+.moon-body {
+  width: 58px; height: 58px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #FFF8DC, #F0C060, #C8922A);
+  box-shadow: 0 0 40px 10px rgba(240,192,96,0.3), 0 0 80px 20px rgba(200,146,42,0.12);
+}
+@keyframes moonFloat {
+  0% { transform: translateY(0); } 100% { transform: translateY(-12px); }
+}
+
+/* ═══ LANTERNS ═══ */
+.lanterns-rope {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 240px; z-index: 10; pointer-events: none; overflow: visible;
+}
+.rope-line { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: rgba(100,70,30,0.5); }
+.lantern-wrap {
+  position: absolute; top: 0; display: flex; flex-direction: column; align-items: center;
+  animation: sway var(--sw, 4s) ease-in-out infinite alternate; transform-origin: top center;
+}
+@keyframes sway { 0% { transform: rotate(-4deg); } 100% { transform: rotate(4deg); } }
+.lantern-string { width: 1px; background: rgba(120,80,30,0.6); }
+.lantern-body {
+  border-radius: 40% 40% 50% 50%; position: relative;
+  animation: flicker var(--fl, 3s) ease-in-out infinite alternate;
+}
+@keyframes flicker {
+  0%, 100% { box-shadow: 0 0 14px var(--lg), 0 0 30px var(--lg2); }
+  50% { box-shadow: 0 0 26px var(--lg), 0 0 55px var(--lg2); }
+}
+.lantern-top, .lantern-bot {
+  position: absolute; left: -4px; right: -4px; height: 6px;
+  background: rgba(70,45,15,0.95); border-radius: 3px;
+}
+.lantern-top { top: -3px; } .lantern-bot { bottom: -3px; }
+
+/* ═══ CONTAINER ═══ */
+.container {
+  position: relative; z-index: 20;
+  max-width: 480px; margin: 0 auto;
+  min-height: 100vh; padding: 0 0 50px;
+  display: flex; flex-direction: column;
+}
+
+/* ═══ HERO ═══ */
+.hero {
+  text-align: center;
+  padding: 100px 20px 28px;
+}
+.hero-ornament {
+  color: rgba(200,146,42,0.38);
+  font-size: 0.72rem; letter-spacing: 10px; margin-bottom: 10px;
+}
+.hero-prayer-name {
+  font-family: 'Noto Naskh Arabic', serif;
+  font-size: 1.5rem; color: var(--gold-l);
+  letter-spacing: 5px; margin-bottom: 4px;
+  filter: drop-shadow(0 0 10px rgba(200,146,42,0.5));
+}
+.hero-time-wrap {
+  display: flex; align-items: baseline;
+  justify-content: center; gap: 8px;
+}
+.hero-time {
+  font-family: 'Amiri', serif;
+  font-size: clamp(3.8rem, 11vw, 5.2rem);
+  background: linear-gradient(135deg, #FFD97D, #C8922A, #F0C060);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  line-height: 1; filter: drop-shadow(0 0 22px rgba(200,146,42,0.4));
+  letter-spacing: 3px;
+}
+.hero-ampm {
+  font-family: 'Tajawal', sans-serif;
+  font-size: 1.3rem; color: var(--gold); line-height: 1;
+}
+.location-bar {
+  display: flex; align-items: center; justify-content: center;
+  gap: 5px; padding: 8px 0 0; font-size: 0.7rem; color: var(--dim);
+}
+.location-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--gold); opacity: 0.7;
+}
+.location-bar strong { color: var(--gold-l); font-weight: 500; }
+
+/* ═══ SUHOOR / IFTAR BANNER ═══ */
+.suhoor-iftar {
+  margin: 0 20px 22px;
+  background: linear-gradient(135deg, rgba(200,146,42,0.16), rgba(240,192,96,0.08));
+  border: 1px solid rgba(200,146,42,0.4);
+  border-radius: 16px;
+  padding: 13px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 0 25px rgba(200,146,42,0.08), inset 0 1px 0 rgba(200,146,42,0.12);
+  position: relative; overflow: hidden;
+}
+.suhoor-iftar::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    90deg, transparent 0px, transparent 8px,
+    rgba(200,146,42,0.025) 8px, rgba(200,146,42,0.025) 9px
+  );
+}
+.si-block {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 3px; position: relative;
+}
+.si-label {
+  font-family: 'Tajawal', sans-serif;
+  font-size: 0.7rem; color: var(--dim); letter-spacing: 0.5px;
+}
+.si-time-row {
+  display: flex; align-items: baseline; gap: 3px;
+}
+.si-time {
+  font-family: 'Amiri', serif;
+  font-size: 1.2rem; color: var(--gold-g); font-weight: 700;
+  filter: drop-shadow(0 0 5px rgba(200,146,42,0.45));
+}
+.si-ampm {
+  font-family: 'Tajawal', sans-serif;
+  font-size: 0.72rem; color: var(--gold);
+}
+.si-divider {
+  width: 1px; height: 34px;
+  background: linear-gradient(180deg, transparent, rgba(200,146,42,0.4), transparent);
+}
+
+/* ═══ DATE NAV ═══ */
+.date-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 0 20px 20px;
+  padding: 12px 14px;
+  background: rgba(28,21,53,0.85);
+  border: 1px solid rgba(200,146,42,0.18);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+}
+.nav-arrow {
+  width: 34px; height: 34px; border-radius: 9px;
+  background: rgba(200,146,42,0.1);
+  border: 1px solid rgba(200,146,42,0.28);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--gold-l);
+  font-size: 1.3rem; font-family: 'Tajawal', sans-serif;
+  transition: all 0.25s; user-select: none; line-height: 1;
+}
+.nav-arrow:hover {
+  background: rgba(200,146,42,0.2);
+  border-color: var(--gold);
+  box-shadow: 0 0 12px rgba(200,146,42,0.3);
+}
+.date-center {
+  text-align: center; flex: 1; padding: 0 10px;
+}
+.date-hijri {
+  font-family: 'Noto Naskh Arabic', serif;
+  font-size: 0.98rem; color: var(--gold-l);
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.date-dot {
+  display: inline-block;
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--gold); opacity: 0.6; flex-shrink: 0;
+}
+.date-gregorian {
+  font-size: 0.62rem; color: var(--dim); margin-top: 3px; letter-spacing: 0.5px;
+}
+
+/* ═══ GEO SEPARATOR ═══ */
+.geo-sep {
+  height: 1px; margin: 0 20px 18px;
+  background: repeating-linear-gradient(
+    90deg, transparent 0px, transparent 6px,
+    rgba(200,146,42,0.28) 6px, rgba(200,146,42,0.28) 7px
+  );
+  position: relative;
+}
+.geo-sep::before, .geo-sep::after {
+  content: '❖'; position: absolute; top: 50%; transform: translateY(-50%);
+  color: rgba(200,146,42,0.45); font-size: 0.55rem;
+}
+.geo-sep::before { right: 0; } .geo-sep::after { left: 0; }
+
+/* ═══ PRAYERS LIST ═══ */
+.prayers-list {
+  display: flex; flex-direction: column;
+  gap: 7px; padding: 0 20px;
+}
+
+/* ─── Prayer Row ─── */
+.prayer-row {
+  display: flex;
+  align-items: center;
+  padding: 13px 16px;
+  border-radius: 14px;
+  background: rgba(28,21,53,0.75);
+  border: 1px solid rgba(200,146,42,0.1);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s;
+  position: relative; overflow: hidden;
+  gap: 0;
+}
+.prayer-row::after {
+  content: '';
+  position: absolute; top: 0; right: 0; bottom: 0;
+  width: 3px; background: transparent; border-radius: 0 14px 14px 0;
+  transition: background 0.3s;
+}
+.prayer-row:hover {
+  border-color: rgba(200,146,42,0.28);
+  background: rgba(34,26,64,0.88);
+}
+.prayer-row.active {
+  background: linear-gradient(135deg, rgba(200,146,42,0.13), rgba(240,192,96,0.05));
+  border-color: rgba(200,146,42,0.48);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.35), 0 0 18px rgba(200,146,42,0.08);
+}
+.prayer-row.active::after {
+  background: linear-gradient(180deg, var(--gold-g), var(--gold));
+}
+
+/* LEFT: time (يسار الصفحة = يمين الكارد بسبب RTL) */
+.prayer-time-block {
+  display: flex; align-items: baseline;
+  gap: 3px; min-width: 70px; flex-shrink: 0;
+  justify-content: flex-start;
+}
+.prayer-time-val {
+  font-family: 'Amiri', serif;
+  font-size: 1.18rem; color: var(--gold-l); letter-spacing: 0.5px;
+}
+.prayer-row.active .prayer-time-val { color: var(--gold-g); text-shadow: 0 0 10px rgba(200,146,42,0.45); }
+.prayer-ampm {
+  font-family: 'Tajawal', sans-serif;
+  font-size: 0.65rem; color: var(--dim);
+}
+.prayer-row.active .prayer-ampm { color: var(--gold); }
+
+/* CENTER: name + bell */
+.prayer-center {
+  flex: 1;
+  display: flex; align-items: center;
+  justify-content: flex-end;
+  gap: 10px; padding: 0 14px;
+}
+.prayer-name {
+  font-family: 'Noto Naskh Arabic', serif;
+  font-size: 1rem; color: var(--plaster);
+}
+.prayer-row.active .prayer-name { color: var(--gold-g); }
+
+/* Bell button */
+.bell-btn {
+  flex-shrink: 0;
+  width: 28px; height: 28px; border-radius: 8px;
+  background: rgba(200,146,42,0.06);
+  border: 1px solid rgba(200,146,42,0.15);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.22s;
+}
+.bell-btn:hover { background: rgba(200,146,42,0.15); border-color: rgba(200,146,42,0.35); }
+.bell-btn.on { background: rgba(200,146,42,0.18); border-color: rgba(200,146,42,0.45); }
+.bell-btn svg { width: 14px; height: 14px; overflow: visible; }
+.bell-path { fill: none; stroke: var(--dim); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.bell-btn.on .bell-path { stroke: var(--gold-l); }
+.bell-slash { stroke: var(--dim); stroke-width: 1.7; stroke-linecap: round; }
+.bell-btn.on .bell-slash { display: none; }
+
+/* RIGHT: checkbox */
+.prayer-check {
+  flex-shrink: 0;
+  width: 24px; height: 24px; border-radius: 7px;
+  border: 1.5px solid rgba(200,146,42,0.35);
+  background: rgba(200,146,42,0.04);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.22s;
+}
+.prayer-check:hover { border-color: var(--gold); background: rgba(200,146,42,0.1); }
+.prayer-check.checked {
+  background: linear-gradient(135deg, var(--gold), var(--gold-l));
+  border-color: var(--gold-l);
+  box-shadow: 0 0 8px rgba(200,146,42,0.45);
+}
+.check-svg { display: none; width: 13px; height: 13px; }
+.prayer-check.checked .check-svg { display: block; }
+.check-svg path { fill: none; stroke: var(--night); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ═══ COUNTDOWN ═══ */
+.countdown-wrap {
+  margin: 18px 20px 0;
+  padding: 16px 22px;
+  background: rgba(28,21,53,0.85);
+  border: 1px solid rgba(200,146,42,0.2);
+  border-radius: 16px;
+  text-align: center;
+  backdrop-filter: blur(12px);
+  box-shadow: inset 0 1px 0 rgba(200,146,42,0.08);
+}
+.ct-label {
+  font-size: 0.58rem; color: var(--dim);
+  letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px;
+}
+.ct-time {
+  font-family: 'Amiri', serif;
+  font-size: 2.4rem; color: var(--gold-l);
+  letter-spacing: 6px;
+  text-shadow: 0 0 20px rgba(200,146,42,0.45);
+  line-height: 1;
+}
+.ct-next {
+  font-size: 0.68rem; color: var(--dim); margin-top: 7px;
+}
+.ct-next strong { color: var(--gold); font-weight: 500; }
+
+/* ═══ BOTTOM ORNAMENT ═══ */
+.bottom-ornament {
+  text-align: center;
+  color: rgba(200,146,42,0.28);
+  font-size: 0.85rem; letter-spacing: 10px;
+  padding: 28px 0 16px;
+}
+</style>
+</head>
+<body>
+
+<div class="sky-layer"></div>
+<div class="stars-bg" id="stars-bg"></div>
+<div class="moon-page"><div class="moon-body"></div></div>
+<div class="lanterns-rope" id="lanterns-page"><div class="rope-line"></div></div>
+
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-ornament">❋ ✦ ❋ ✦ ❋</div>
+    <div class="hero-prayer-name" id="current-prayer-name">الظهر</div>
+    <div class="hero-time-wrap">
+      <div class="hero-time" id="hero-time-val">12:10</div>
+      <div class="hero-ampm" id="hero-ampm">م</div>
+    </div>
+    <div class="location-bar">
+      <div class="location-dot"></div>
+      <strong id="city-name">القاهرة، مصر</strong>
+    </div>
+  </div>
+
+  <!-- SUHOOR / IFTAR -->
+  <div class="suhoor-iftar">
+    <div class="si-block">
+      <div class="si-label">وقت السحور</div>
+      <div class="si-time-row">
+        <div class="si-time">5:05</div>
+        <div class="si-ampm">ص</div>
+      </div>
+    </div>
+    <div class="si-divider"></div>
+    <div class="si-block">
+      <div class="si-label">وقت الإفطار</div>
+      <div class="si-time-row">
+        <div class="si-time">5:50</div>
+        <div class="si-ampm">م</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DATE NAV — السهم الأيمن للرجوع، الأيسر للتقدم -->
+  <div class="date-nav">
+    <!-- أيمن الشاشة = السابق (في RTL السهم > يعني "اذهب يميناً = السابق") -->
+    <div class="nav-arrow" onclick="changeDay(1)">&#8249;</div>
+    <div class="date-center">
+      <div class="date-hijri" id="hijri-date">
+        <span class="date-dot"></span>02 رمضان، 1447 هـ
+      </div>
+      <div class="date-gregorian" id="greg-date">20 فبراير 2026</div>
+    </div>
+    <div class="nav-arrow" onclick="changeDay(-1)">&#8250;</div>
+  </div>
+
+  <div class="geo-sep"></div>
+
+  <!-- PRAYERS LIST -->
+  <div class="prayers-list">
+
+    <!-- الفجر -->
+    <div class="prayer-row" id="row-fajr">
+      <div class="prayer-time-block">
+        <span class="prayer-time-val">5:05</span>
+        <span class="prayer-ampm">ص</span>
+      </div>
+      <div class="prayer-center">
+        <span class="prayer-name">الفجر</span>
+        <div class="bell-btn" id="bell-fajr" onclick="toggleBell(event,'fajr')">
+          <svg viewBox="0 0 22 22">
+            <path class="bell-path" d="M10 2a6 6 0 0 0-6 6c0 6-2.5 8-2.5 8h17s-2.5-2-2.5-8a6 6 0 0 0-6-6z"/>
+            <path class="bell-path" d="M11.73 18a2 2 0 0 1-3.46 0"/>
+            <line class="bell-slash" x1="2" y1="2" x2="20" y2="20"/>
+          </svg>
+        </div>
+      </div>
+      <div class="prayer-check" id="chk-fajr" onclick="toggleCheck(event,'fajr')">
+        <svg class="check-svg" viewBox="0 0 13 13"><path d="M2.5 6.5l3 3 5-5"/></svg>
+      </div>
+    </div>
+
+    <!-- الشروق -->
+    <div class="prayer-row" id="row-shurooq">
+      <div class="prayer-time-block">
+        <span class="prayer-time-val">6:31</span>
+        <span class="prayer-ampm">ص</span>
+      </div>
+      <div class="prayer-center">
+        <span class="prayer-name">الشروق</span>
+        <div class="bell-btn on" id="bell-shurooq" onclick="toggleBell(event,'shurooq')">
+          <svg viewBox="0 0 22 22">
+            <path class="bell-path" d="M10 2a6 6 0 0 0-6 6c0 6-2.5 8-2.5 8h17s-2.5-2-2.5-8a6 6 0 0 0-6-6z"/>
+            <path class="bell-path" d="M11.73 18a2 2 0 0 1-3.46 0"/>
+          </svg>
+        </div>
+      </div>
+      <div class="prayer-check" id="chk-shurooq" onclick="toggleCheck(event,'shurooq')">
+        <svg class="check-svg" viewBox="0 0 13 13"><path d="M2.5 6.5l3 3 5-5"/></svg>
+      </div>
+    </div>
+
+    <!-- الظهر -->
+    <div class="prayer-row active" id="row-dhuhr">
+      <div class="prayer-time-block">
+        <span class="prayer-time-val">12:10</span>
+        <span class="prayer-ampm">م</span>
+      </div>
+      <div class="prayer-center">
+        <span class="prayer-name">الظهر</span>
+        <div class="bell-btn" id="bell-dhuhr" onclick="toggleBell(event,'dhuhr')">
+          <svg viewBox="0 0 22 22">
+            <path class="bell-path" d="M10 2a6 6 0 0 0-6 6c0 6-2.5 8-2.5 8h17s-2.5-2-2.5-8a6 6 0 0 0-6-6z"/>
+            <path class="bell-path" d="M11.73 18a2 2 0 0 1-3.46 0"/>
+            <line class="bell-slash" x1="2" y1="2" x2="20" y2="20"/>
+          </svg>
+        </div>
+      </div>
+      <div class="prayer-check" id="chk-dhuhr" onclick="toggleCheck(event,'dhuhr')">
+        <svg class="check-svg" viewBox="0 0 13 13"><path d="M2.5 6.5l3 3 5-5"/></svg>
+      </div>
+    </div>
+
+    <!-- العصر -->
+    <div class="prayer-row" id="row-asr">
+      <div class="prayer-time-block">
+        <span class="prayer-time-val">3:24</span>
+        <span class="prayer-ampm">م</span>
+      </div>
+      <div class="prayer-center">
+        <span class="prayer-name">العصر</span>
+        <div class="bell-btn" id="bell-asr" onclick="toggleBell(event,'asr')">
+          <svg viewBox="0 0 22 22">
+            <path class="bell-path" d="M10 2a6 6 0 0 0-6 6c0 6-2.5 8-2.5 8h17s-2.5-2-2.5-8a6 6 0 0 0-6-6z"/>
+            <path class="bell-path" d="M11.73 18a2 2 0 0 1-3.46 0"/>
+            <line class="bell-slash" x1="2" y1="2" x2="20" y2="20"/>
+          </svg>
+        </div>
+      </div>
+      <div class="prayer-check" id="chk-asr" onclick="toggleCheck(event,'asr')">
+        <svg class="check-svg" viewBox="0 0 13 13"><path d="M2.5 6.5l3 3 5-5"/></svg>
+      </div>
+    </div>
+
+    <!-- المغرب -->
+    <div class="prayer-row" id="row-maghrib">
+      <div class="prayer-time-block">
+        <span class="prayer-time-val">5:50</span>
+        <span class="prayer-ampm">م</span>
+      </div>
+      <div class="prayer-center">
+        <span class="prayer-name">المغرب</span>
+        <div class="bell-btn" id="bell-maghrib" onclick="toggleBell(event,'maghrib')">
+          <svg viewBox="0 0 22 22">
+            <path class="bell-path" d="M10 2a6 6 0 0 0-6 6c0 6-2.5 8-2.5 8h17s-2.5-2-2.5-8a6 6 0 0 0-6-6z"/>
+            <path class="bell-path" d="M11.73 18a2 2 0 0 1-3.46 0"/>
+            <line class="bell-slash" x1="2" y1="2" x2="20" y2="20"/>
+          </svg>
+        </div>
+      </div>
+      <div class="prayer-check" id="chk-maghrib" onclick="toggleCheck(event,'maghrib')">
+        <svg class="check-svg" viewBox="0 0 13 13"><path d="M2.5 6.5l3 3 5-5"/></svg>
+      </div>
+    </div>
+
+    <!-- العشاء -->
+    <div class="prayer-row" id="row-isha">
+      <div class="prayer-time-block">
+        <span class="prayer-time-val">7:07</span>
+        <span class="prayer-ampm">م</span>
+      </div>
+      <div class="prayer-center">
+        <span class="prayer-name">العشاء</span>
+        <div class="bell-btn" id="bell-isha" onclick="toggleBell(event,'isha')">
+          <svg viewBox="0 0 22 22">
+            <path class="bell-path" d="M10 2a6 6 0 0 0-6 6c0 6-2.5 8-2.5 8h17s-2.5-2-2.5-8a6 6 0 0 0-6-6z"/>
+            <path class="bell-path" d="M11.73 18a2 2 0 0 1-3.46 0"/>
+            <line class="bell-slash" x1="2" y1="2" x2="20" y2="20"/>
+          </svg>
+        </div>
+      </div>
+      <div class="prayer-check" id="chk-isha" onclick="toggleCheck(event,'isha')">
+        <svg class="check-svg" viewBox="0 0 13 13"><path d="M2.5 6.5l3 3 5-5"/></svg>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- COUNTDOWN -->
+  <div class="countdown-wrap">
+    <div class="ct-label">الوقت المتبقي للإفطار</div>
+    <div class="ct-time" id="countdown">--:--:--</div>
+    <div class="ct-next">المغرب الساعة <strong>5:50 م</strong></div>
+  </div>
+
+  <div class="bottom-ornament">❋ ✦ يُتِمُّ نُورَهُ ✦ ❋</div>
+
+</div>
+
+<script>
+/* STARS */
+const sb = document.getElementById('stars-bg');
+for (let i = 0; i < 140; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  const size = Math.random() * 2.5 + 0.4;
+  s.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*70}%;width:${size}px;height:${size}px;--d:${2+Math.random()*4}s;opacity:${Math.random()*0.5+0.1};animation-delay:${Math.random()*5}s;`;
+  sb.appendChild(s);
+}
+
+/* LANTERNS */
+const lp = document.getElementById('lanterns-page');
+const lcols = [
+  {body:'rgba(220,80,0,0.88)',lg:'rgba(255,100,0,0.8)',lg2:'rgba(255,50,0,0.28)'},
+  {body:'rgba(0,60,180,0.88)',lg:'rgba(0,100,255,0.7)',lg2:'rgba(0,50,200,0.28)'},
+  {body:'rgba(0,130,60,0.88)',lg:'rgba(0,200,80,0.7)',lg2:'rgba(0,150,60,0.28)'},
+  {body:'rgba(150,0,150,0.88)',lg:'rgba(200,0,200,0.7)',lg2:'rgba(150,0,150,0.28)'},
+  {body:'rgba(180,140,0,0.88)',lg:'rgba(255,200,0,0.8)',lg2:'rgba(200,150,0,0.28)'},
+];
+const lcount = Math.floor(window.innerWidth / 85) + 5;
+for (let i = 0; i < lcount; i++) {
+  const c = lcols[i % lcols.length];
+  const sz = 20 + Math.random() * 16;
+  const sl = 16 + Math.random() * 35;
+  const w = document.createElement('div');
+  w.className = 'lantern-wrap';
+  w.style.cssText = `left:${(i/lcount)*100+(Math.random()*3-1.5)}%;--sw:${3+Math.random()*3}s;animation-delay:${Math.random()*3}s;`;
+  w.innerHTML = `<div class="lantern-string" style="height:${sl}px"></div><div class="lantern-body" style="width:${sz}px;height:${sz*1.8}px;background:${c.body};--lg:${c.lg};--lg2:${c.lg2};--fl:${2+Math.random()*2}s"><div class="lantern-top"></div><div class="lantern-bot"></div></div>`;
+  lp.appendChild(w);
+}
+
+/* CHECKBOX */
+const checkedState = {};
+function toggleCheck(e, id) {
+  e.stopPropagation();
+  checkedState[id] = !checkedState[id];
+  document.getElementById('chk-' + id).classList.toggle('checked', checkedState[id]);
+}
+
+/* BELL */
+const bellState = { shurooq: true };
+function toggleBell(e, id) {
+  e.stopPropagation();
+  bellState[id] = !bellState[id];
+  const btn = document.getElementById('bell-' + id);
+  btn.classList.toggle('on', bellState[id]);
+}
+
+/* DATE NAV */
+let dayOffset = 0;
+const hijriBase = 2;
+const gregBase = new Date(2026, 1, 20);
+const months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+
+function changeDay(dir) {
+  dayOffset += dir;
+  const day = hijriBase + dayOffset;
+  const dayStr = String(day).padStart(2, '0');
+  document.getElementById('hijri-date').innerHTML = `<span class="date-dot"></span>${dayStr} رمضان، 1447 هـ`;
+  const d = new Date(gregBase);
+  d.setDate(gregBase.getDate() + dayOffset);
+  document.getElementById('greg-date').textContent = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+/* COUNTDOWN */
+function updateCountdown() {
+  const now = new Date();
+  const iftar = new Date(); iftar.setHours(17, 50, 0, 0);
+  const diff = Math.max(0, iftar - now);
+  const h = Math.floor(diff / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+  const ar = n => String(n).padStart(2,'0').replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
+  document.getElementById('countdown').textContent = `${ar(h)}:${ar(m)}:${ar(s)}`;
+}
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+/* ACTIVE PRAYER */
+const prayers = [
+  { id:'fajr',    h:5,  m:5,  name:'الفجر',  timeStr:'5:05',  ampm:'ص' },
+  { id:'shurooq', h:6,  m:31, name:'الشروق', timeStr:'6:31',  ampm:'ص' },
+  { id:'dhuhr',   h:12, m:10, name:'الظهر',  timeStr:'12:10', ampm:'م' },
+  { id:'asr',     h:15, m:24, name:'العصر',  timeStr:'3:24',  ampm:'م' },
+  { id:'maghrib', h:17, m:50, name:'المغرب', timeStr:'5:50',  ampm:'م' },
+  { id:'isha',    h:19, m:7,  name:'العشاء', timeStr:'7:07',  ampm:'م' },
+];
+
+function highlightCurrent() {
+  const now = new Date();
+  const mins = now.getHours() * 60 + now.getMinutes();
+  let current = prayers[prayers.length - 1];
+  for (let i = 0; i < prayers.length; i++) {
+    if (mins >= prayers[i].h * 60 + prayers[i].m) current = prayers[i];
+  }
+  prayers.forEach(p => {
+    document.getElementById('row-' + p.id).classList.toggle('active', p.id === current.id);
+  });
+  document.getElementById('hero-time-val').textContent = current.timeStr;
+  document.getElementById('hero-ampm').textContent = current.ampm;
+  document.getElementById('current-prayer-name').textContent = current.name;
+}
+highlightCurrent();
+</script>
+</body>
+</html>
