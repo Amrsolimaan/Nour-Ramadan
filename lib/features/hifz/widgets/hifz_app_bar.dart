@@ -51,17 +51,27 @@ class HifzAppBar extends StatelessWidget {
               ),
             ),
           ),
-          const Spacer(),
-          Text(
-            title,
-            style: TextStyle(
-              fontFamily: 'NotoNaskhArabic',
-              fontSize: 18.sp,
-              fontWeight: FontWeight.w700,
-              color: AppColors.agedPlaster,
+          SizedBox(width: 8.w),
+          Expanded(
+            child: Center(
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontFamily: 'NotoNaskhArabic',
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.agedPlaster,
+                  ),
+                ),
+              ),
             ),
           ),
-          const Spacer(),
+          SizedBox(width: 8.w),
           trailing ?? SizedBox(width: 38.r),
         ],
       ),

@@ -467,7 +467,7 @@ class _PortionRow extends StatelessWidget {
       children: [
         Row(
           children: [
-            _UnitDropdown(value: unit, onChanged: onUnitChanged),
+            Expanded(child: _UnitDropdown(value: unit, onChanged: onUnitChanged)),
             SizedBox(width: 12.w),
             _DoubleStepperRow(value: count, min: 0.5, max: 10, step: 0.5, onChanged: onCountChanged),
           ],

@@ -309,7 +309,7 @@ class _HifzNewMemorizationScreenState
   Widget _buildModeTabBar() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16.w),
-      height: 38.h,
+      height: 44.h,
       decoration: BoxDecoration(
         color: AppColors.nightCard,
         borderRadius: BorderRadius.circular(20.r),

@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>سياسة الخصوصية — نور رمضان</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600;700&family=Tajawal:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold: #C8922A;
+      --gold-light: #E8D5B0;
+      --gold-warm: #D4A843;
+      --bg-dark: #08061A;
+      --bg-mid: #130F2A;
+      --bg-deep: #1A1020;
+      --card-bg: rgba(34,26,64,0.6);
+      --card-border: rgba(200,146,42,0.2);
+      --card-border-light: rgba(200,146,42,0.15);
+      --card-border-dim: rgba(200,146,42,0.1);
+      --text-main: #E8D5B0;
+      --text-sub: rgba(232,213,176,0.8);
+      --text-dim: rgba(232,213,176,0.7);
+      --text-faint: rgba(232,213,176,0.5);
+      --text-muted: rgba(232,213,176,0.6);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-mid) 50%, var(--bg-deep) 100%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      color: var(--text-main);
+      direction: rtl;
+    }
+
+    .screen {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Header ── */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 40px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: linear-gradient(180deg, rgba(8,6,26,0.98) 0%, rgba(8,6,26,0.9) 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(200,146,42,0.12);
+    }
+
+    .header-title {
+      font-family: 'Noto Naskh Arabic', serif;
+      font-size: clamp(20px, 3vw, 28px);
+      font-weight: 600;
+      color: var(--text-main);
+      letter-spacing: 0.01em;
+    }
+
+    /* ── Content ── */
+    .content {
+      flex: 1;
+      padding: clamp(24px, 4vw, 60px) clamp(16px, 6vw, 120px) 60px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    @media (min-width: 768px) {
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      .grid-3 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 12px;
+      }
+    }
+
+    /* ── Intro Card ── */
+    .intro-card {
+      background: rgba(34,26,64,0.6);
+      border-radius: 16px;
+      border: 1px solid rgba(200,146,42,0.2);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .intro-icon {
+      width: 56px;
+      height: 56px;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+
+    .intro-title {
+      font-family: 'Noto Naskh Arabic', serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 12px;
+    }
+
+    .intro-text {
+      font-size: 14px;
+      color: var(--text-sub);
+      line-height: 1.6;
+    }
+
+    /* ── Section ── */
+    .section { display: flex; flex-direction: column; gap: 12px; animation: fadeUp 0.5s ease both; }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 0;
+    }
+
+    .section-title-bar {
+      width: 4px;
+      height: 20px;
+      background: var(--gold);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    .section-title-text {
+      font-family: 'Noto Naskh Arabic', serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--gold);
+    }
+
+    /* ── Info Card ── */
+    .info-card {
+      background: rgba(34,26,64,0.5);
+      border-radius: 12px;
+      border: 1px solid rgba(200,146,42,0.15);
+      padding: 16px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .info-icon-wrap {
+      width: 44px;
+      height: 44px;
+      background: rgba(200,146,42,0.15);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .info-icon-wrap svg { width: 24px; height: 24px; color: var(--gold); }
+
+    .info-body { flex: 1; }
+
+    .info-title {
+      font-family: 'Noto Naskh Arabic', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .info-desc {
+      font-size: 13px;
+      color: rgba(232,213,176,0.7);
+      line-height: 1.5;
+    }
+
+    /* ── Bullet Points ── */
+    .bullets { display: flex; flex-direction: column; gap: 10px; padding-right: 8px; }
+
+    .bullet-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .bullet-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 8px;
+    }
+
+    .bullet-text {
+      font-size: 14px;
+      color: var(--text-sub);
+      line-height: 1.5;
+    }
+
+    /* ── Permission Card ── */
+    .permission-card {
+      background: rgba(34,26,64,0.4);
+      border-radius: 10px;
+      border: 1px solid rgba(200,146,42,0.1);
+      padding: 14px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .permission-card svg { width: 22px; height: 22px; color: var(--gold); flex-shrink: 0; }
+
+    .permission-body { flex: 1; }
+
+    .permission-title {
+      font-family: 'Noto Naskh Arabic', serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 2px;
+    }
+
+    .permission-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* ── Contact Card ── */
+    .contact-card {
+      background: linear-gradient(135deg, rgba(200,146,42,0.15), rgba(200,146,42,0.05));
+      border-radius: 14px;
+      border: 1px solid rgba(200,146,42,0.3);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0;
+    }
+
+    .contact-card svg { width: 36px; height: 36px; color: var(--gold); margin-bottom: 12px; }
+
+    .contact-title {
+      font-family: 'Noto Naskh Arabic', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .contact-subtitle {
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-bottom: 16px;
+    }
+
+    .email-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gold);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-family: 'Tajawal', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      transition: background 0.2s, transform 0.15s;
+      cursor: pointer;
+      border: none;
+    }
+    .email-btn:hover { background: #D4A843; transform: translateY(-1px); }
+    .email-btn:active { transform: translateY(0); }
+    .email-btn svg { width: 18px; height: 18px; }
+
+    /* ── Footer Note ── */
+    .footer-note {
+      background: rgba(34,26,64,0.3);
+      border-radius: 12px;
+      border: 1px solid rgba(200,146,42,0.1);
+      padding: 16px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .footer-note svg { width: 20px; height: 20px; color: rgba(200,146,42,0.7); flex-shrink: 0; margin-top: 1px; }
+
+    .footer-note-text {
+      font-size: 11px;
+      color: var(--text-faint);
+      line-height: 1.4;
+    }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--gold);
+      color: #fff;
+      font-family: 'Tajawal', sans-serif;
+      font-size: 14px;
+      padding: 12px 20px;
+      border-radius: 12px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s, transform 0.3s;
+      white-space: nowrap;
+      z-index: 100;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .section:nth-child(1) { animation-delay: 0.05s; }
+    .section:nth-child(2) { animation-delay: 0.10s; }
+    .section:nth-child(3) { animation-delay: 0.15s; }
+    .section:nth-child(4) { animation-delay: 0.20s; }
+    .section:nth-child(5) { animation-delay: 0.25s; }
+    .intro-card           { animation-delay: 0.02s; }
+
+    /* scrollbar */
+    .content::-webkit-scrollbar { width: 4px; }
+    .content::-webkit-scrollbar-track { background: transparent; }
+    .content::-webkit-scrollbar-thumb { background: rgba(200,146,42,0.3); border-radius: 2px; }
+  </style>
+</head>
+<body>
+<div class="screen">
+
+  <!-- Header -->
+  <header class="header">
+    <h1 class="header-title">سياسة الخصوصية — نور رمضان</h1>
+  </header>
+
+  <!-- Content -->
+  <main class="content">
+
+    <!-- Intro -->
+    <div class="intro-card">
+      <svg class="intro-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
+      <p class="intro-title">خصوصيتك مهمة بالنسبة لنا</p>
+      <p class="intro-text">تطبيق نور رمضان يحترم خصوصيتك ويحمي بياناتك. جميع البيانات تُحفظ محلياً على جهازك ولا نشاركها مع أي طرف ثالث.</p>
+    </div>
+
+    <!-- البيانات التي نجمعها -->
+    <div class="section">
+      <div class="section-title">
+        <div class="section-title-bar"></div>
+        <span class="section-title-text">البيانات التي نجمعها</span>
+      </div>
+
+      <div class="grid-2">
+        <div class="info-card">
+          <div class="info-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+            </svg>
+          </div>
+          <div class="info-body">
+            <p class="info-title">بيانات الموقع</p>
+            <p class="info-desc">نستخدم موقعك الجغرافي فقط لحساب أوقات الصلاة الدقيقة واتجاه القبلة. لا نشارك هذه البيانات مع أي طرف ثالث.</p>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+          </div>
+          <div class="info-body">
+            <p class="info-title">الإشعارات</p>
+            <p class="info-desc">نرسل إشعارات محلية على جهازك لتذكيرك بأوقات الصلاة والأذكار. جميع الإشعارات تتم معالجتها محلياً على جهازك.</p>
+          </div>
+        </div>
+
+        <div class="info-card" style="grid-column: 1 / -1;">
+          <div class="info-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+            </svg>
+          </div>
+          <div class="info-body">
+            <p class="info-title">البيانات المحلية</p>
+            <p class="info-desc">نحفظ تقدمك في قراءة القرآن والأذكار والتسبيح محلياً على جهازك فقط. لا يتم رفع هذه البيانات إلى أي خادم.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- كيف نستخدم بياناتك -->
+    <div class="section">
+      <div class="section-title">
+        <div class="section-title-bar"></div>
+        <span class="section-title-text">كيف نستخدم بياناتك</span>
+      </div>
+      <div class="bullets">
+        <div class="bullet-item"><div class="bullet-dot"></div><span class="bullet-text">حساب أوقات الصلاة الدقيقة بناءً على موقعك</span></div>
+        <div class="bullet-item"><div class="bullet-dot"></div><span class="bullet-text">إرسال تذكيرات الصلاة والأذكار</span></div>
+        <div class="bullet-item"><div class="bullet-dot"></div><span class="bullet-text">حفظ تقدمك في العبادات</span></div>
+        <div class="bullet-item"><div class="bullet-dot"></div><span class="bullet-text">تحسين تجربة استخدام التطبيق</span></div>
+      </div>
+    </div>
+
+    <!-- الأذونات المطلوبة -->
+    <div class="section">
+      <div class="section-title">
+        <div class="section-title-bar"></div>
+        <span class="section-title-text">الأذونات المطلوبة</span>
+      </div>
+
+      <div class="grid-3">
+        <div class="permission-card">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+          </svg>
+          <div class="permission-body">
+            <p class="permission-title">الموقع</p>
+            <p class="permission-desc">لحساب أوقات الصلاة واتجاه القبلة</p>
+          </div>
+        </div>
+
+        <div class="permission-card">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+          <div class="permission-body">
+            <p class="permission-title">الإشعارات</p>
+            <p class="permission-desc">لتذكيرك بأوقات الصلاة والأذكار</p>
+          </div>
+        </div>
+
+        <div class="permission-card">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="10" y="2" width="4" height="20" rx="2"/><path d="M6 6H4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h2"/><path d="M18 6h2a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2"/>
+          </svg>
+          <div class="permission-body">
+            <p class="permission-title">الاهتزاز</p>
+            <p class="permission-desc">لتفعيل الاهتزاز عند استخدام السبحة</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- التواصل معنا -->
+    <div class="section">
+      <div class="section-title">
+        <div class="section-title-bar"></div>
+        <span class="section-title-text">التواصل معنا</span>
+      </div>
+      <div class="contact-card">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+        </svg>
+        <p class="contact-title">لديك استفسار أو اقتراح؟</p>
+        <p class="contact-subtitle">نسعد بتواصلك معنا عبر البريد الإلكتروني</p>
+        <button class="email-btn" onclick="copyEmailFallback(event)">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          <span id="email-text">amrsolimaan@gmail.com</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Footer Note -->
+    <div class="footer-note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      <p class="footer-note-text">آخر تحديث: فبراير 2025 • نحتفظ بالحق في تحديث هذه السياسة</p>
+    </div>
+
+  </main>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">تم نسخ البريد الإلكتروني</div>
+
+<script>
+  function copyEmailFallback(event) {
+    event.preventDefault();
+    const email = document.getElementById('email-text').innerText;
+    navigator.clipboard.writeText(email).then(() => {
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }).catch(err => {
+      window.location.href = 'mailto:' + email;
+    });
+  }
+</script>
+</body>
+</html>

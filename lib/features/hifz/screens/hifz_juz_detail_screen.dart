@@ -389,7 +389,7 @@ class _FilterChipsRow extends StatelessWidget {
     ];
 
     return SizedBox(
-      height: 34.h,
+      height: 42.h,
       child: ListView(
         scrollDirection: Axis.horizontal,
         padding: EdgeInsets.symmetric(horizontal: 16.w),

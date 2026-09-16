@@ -294,11 +294,12 @@ class _TodayReviewCard extends StatelessWidget {
               ),
               SizedBox(height: 12.h),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  HifzStatCard(icon: '📗', label: 'التثبيت', value: '$near'),
-                  HifzStatCard(icon: '🔄', label: 'المراجعة الدورية', value: '$far'),
-                  HifzStatCard(icon: '✅', label: 'أُنجز', value: '$doneCount/$total'),
+                  Expanded(child: HifzStatCard(icon: '📗', label: 'التثبيت', value: '$near')),
+                  Expanded(
+                    child: HifzStatCard(icon: '🔄', label: 'المراجعة الدورية', value: '$far'),
+                  ),
+                  Expanded(child: HifzStatCard(icon: '✅', label: 'أُنجز', value: '$doneCount/$total')),
                 ],
               ),
             ],

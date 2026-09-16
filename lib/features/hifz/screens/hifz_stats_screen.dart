@@ -213,57 +213,62 @@ class _WeeklyProgressCard extends StatelessWidget {
               ),
             )
           else
-            SizedBox(
-              height: barAreaHeight.h + 24.h,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  for (final weekStart in weeks)
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 3.w),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Text(
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                for (final weekStart in weeks)
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 3.w),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
                               '${histogram[weekStart]}',
                               textAlign: TextAlign.center,
+                              maxLines: 1,
                               style: TextStyle(
                                 fontFamily: 'Tajawal',
                                 fontSize: 9.sp,
                                 color: AppColors.textDim,
                               ),
                             ),
-                            SizedBox(height: 4.h),
-                            Container(
-                              height:
-                                  (barAreaHeight *
-                                          (histogram[weekStart]! / maxCount).clamp(0.06, 1.0))
-                                      .h,
-                              decoration: BoxDecoration(
-                                color: AppColors.goldWarm.withValues(
-                                  alpha: histogram[weekStart]! == 0 ? 0.15 : 0.85,
-                                ),
-                                borderRadius: BorderRadius.vertical(top: Radius.circular(4.r)),
+                          ),
+                          SizedBox(height: 4.h),
+                          Container(
+                            height:
+                                (barAreaHeight *
+                                        (histogram[weekStart]! / maxCount).clamp(0.06, 1.0))
+                                    .h,
+                            decoration: BoxDecoration(
+                              color: AppColors.goldWarm.withValues(
+                                alpha: histogram[weekStart]! == 0 ? 0.15 : 0.85,
                               ),
+                              borderRadius: BorderRadius.vertical(top: Radius.circular(4.r)),
                             ),
-                            SizedBox(height: 6.h),
-                            Text(
+                          ),
+                          SizedBox(height: 6.h),
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
                               DateFormat('d/M').format(weekStart),
                               textAlign: TextAlign.center,
+                              maxLines: 1,
                               style: TextStyle(
                                 fontFamily: 'Tajawal',
                                 fontSize: 8.sp,
                                 color: AppColors.textDim,
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                ],
-              ),
+                  ),
+              ],
             ),
         ],
       ),

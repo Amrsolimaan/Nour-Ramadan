@@ -59,16 +59,17 @@ class WirdStreakCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              HifzStatCard(
-                icon: '',
-                label: 'المواظبة الحالية',
-                value: '${meta.currentStreak} يوم',
-                iconWidget: Icon(
-                  Icons.timelapse_rounded,
-                  size: 20.sp,
-                  color: AppColors.goldWarm,
+              Expanded(
+                child: HifzStatCard(
+                  icon: '',
+                  label: 'المواظبة الحالية',
+                  value: '${meta.currentStreak} يوم',
+                  iconWidget: Icon(
+                    Icons.timelapse_rounded,
+                    size: 20.sp,
+                    color: AppColors.goldWarm,
+                  ),
                 ),
               ),
               Container(
@@ -76,14 +77,16 @@ class WirdStreakCard extends StatelessWidget {
                 height: 45.h,
                 color: AppColors.goldWarm.withValues(alpha: 0.2),
               ),
-              HifzStatCard(
-                icon: '',
-                label: 'أطول سلسلة',
-                value: '${meta.longestStreak} يوم',
-                iconWidget: Icon(
-                  Icons.workspace_premium_rounded,
-                  size: 20.sp,
-                  color: AppColors.goldWarm,
+              Expanded(
+                child: HifzStatCard(
+                  icon: '',
+                  label: 'أطول سلسلة',
+                  value: '${meta.longestStreak} يوم',
+                  iconWidget: Icon(
+                    Icons.workspace_premium_rounded,
+                    size: 20.sp,
+                    color: AppColors.goldWarm,
+                  ),
                 ),
               ),
             ],
